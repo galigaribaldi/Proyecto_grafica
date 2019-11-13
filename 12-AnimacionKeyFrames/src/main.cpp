@@ -592,21 +592,21 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		printf("Se crearon las fuentes de sonido");
 
 
-	alSourcef(sources[0], AL_PITCH, 0.7f);
-	alSourcef(sources[0], AL_GAIN, 0.1f);
+	alSourcef(sources[0], AL_PITCH, 1.0f);
+	alSourcef(sources[0], AL_GAIN, 2.0f);
 	alSourcefv(sources[0], AL_VELOCITY, source0Vel);
 	alSourcefv(sources[0], AL_POSITION, source0Pos);
 	alSourcei(sources[0], AL_BUFFER, buffers[0]);
 	alSourcei(sources[0], AL_LOOPING, AL_TRUE);
-	alSourcei(sources[0], AL_MAX_DISTANCE, 2000);
+	alSourcei(sources[0], AL_MAX_DISTANCE, 10);
 
-	alSourcef(sources[1], AL_PITCH, 0.7f);
-	alSourcef(sources[1], AL_GAIN, 0.1f);
+	alSourcef(sources[1], AL_PITCH, 1.0f);
+	alSourcef(sources[1], AL_GAIN, 2.0f);
 	alSourcefv(sources[1], AL_VELOCITY, source0Vel);
 	alSourcefv(sources[1], AL_POSITION, source0Pos);
 	alSourcei(sources[1], AL_BUFFER, buffers[0]);
 	alSourcei(sources[1], AL_LOOPING, AL_TRUE);
-	alSourcei(sources[1], AL_MAX_DISTANCE, 2000);
+	alSourcei(sources[1], AL_MAX_DISTANCE, 10);
 }
 
 void destroy() {
