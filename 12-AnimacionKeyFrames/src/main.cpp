@@ -125,7 +125,7 @@ Model modelCalabaza;
 ////
 Model modelApple, modelBanana, modelCouch, modelLamp, modelMandarine, modelOrange, modelPM, modelTable, modelChimney, modelVela;
 GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9, textureID17, textureID18, textureID20, textureID20P, textureIDM, textureIDV;
-GLuint textureIDR;
+GLuint textureIDR, textureIDv2, textureflorID1;
 GLuint skyboxTextureID;
 // Dart lego
 Model modelDartLegoBody;
@@ -949,6 +949,137 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		std::cout << "Failed to load texture" << std::endl;
 	texture17.freeImage(bitmap);
 
+	/*	// Definiendo la textura a utilizar
+	Texture texture2("../Textures/pavimento.jpg");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = texture2.loadImage();
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = texture2.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureID2);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureID2);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	texture2.freeImage(bitmap);
+	*/
+	/*
+	// Definiendo la textura a utilizar
+	Texture texture3("../Textures/goku.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	// Voltear la imagen
+	bitmap = texture3.loadImage(true);
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = texture3.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureID3);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureID3);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	texture3.freeImage(bitmap);
+	*/
+	/////////Vela
+	// Definiendo la textura a utilizar
+	Texture texturev2("../Textures/vela.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = texturev2.loadImage();
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = texturev2.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureIDv2);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureIDv2);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	texturev2.freeImage(bitmap);
+	// Definiendo la textura a utilizar
+	Texture textureflor("../Textures/flor.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = textureflor.loadImage();
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = textureflor.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureflorID1);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureflorID1);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	textureflor.freeImage(bitmap);
+
+
 	// Carga de texturas para el skybox
 	Texture skyboxTexture = Texture("");
 	glGenTextures(1, &skyboxTextureID);
@@ -1458,12 +1589,12 @@ void applicationLoop() {
 		////////////////////////////////////////////////////////////////////////////Luces dentro de la casa//////////////////////////////////
 		///Amarillo
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(9.0-5, 0.0, 1.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 5, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 2
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(2.0-5, 0.0, 6.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 4, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 3
@@ -2005,6 +2136,21 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, textureIDR);
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(pppicadoIARosa, glm::vec3(0.001, 1.0, 1.0)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		/////////////Vela
+		glm::mat4 velamodel = glm::mat4(3.0);
+		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 5, 1.6, 4.0));
+		glBindTexture(GL_TEXTURE_2D, textureIDv2);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(velamodel, glm::vec3(1.0, 1.0, 0.001)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+		/////////////Vela 2
+		glm::mat4 velamodel2 = glm::mat4(3.0);
+		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 4, 1.6, 4.0));
+		glBindTexture(GL_TEXTURE_2D, textureIDv2);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(velamodel2, glm::vec3(1.0, 1.0, 0.001)));
 		glBindTexture(GL_TEXTURE_2D, 0);
 		////Modelo Mandarina
 		//glm::mat4 matrixModelMandarine = glm::mat4(1.0);
@@ -3206,6 +3352,14 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, textureID6);
 		shaderTexture.setFloat("offsetX", offX);
 		box2.render(glm::scale(modelPasto2, glm::vec3(22.0, 0.01, 22.0)));
+		shaderTexture.setFloat("offsetX", 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		/////////////////////////////////////////////
+		glm::mat4 modelflor = glm::mat4(1.0);
+		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 5, 1.1, 5.5));
+		glBindTexture(GL_TEXTURE_2D, textureflorID1);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(glm::scale(modelflor, glm::vec3(5.0, 0.01, 5.0)));
 		shaderTexture.setFloat("offsetX", 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		/*******************************************
