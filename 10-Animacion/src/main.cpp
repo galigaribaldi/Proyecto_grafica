@@ -990,8 +990,8 @@ void applicationLoop() {
 	float angle = 0.0;
 	float ratio = 30.0;
 	////NAve
-	glm::mat4 matrixModelAircraft = glm::mat4(1.0);
-	matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
+	//glm::mat4 matrixModelAircraft = glm::mat4(1.0);
+	//matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
 	//Carro
 	glm::mat4 matrixModelCarro = glm::mat4(1.0);
 	matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(-20.0, 1.0, -10.0));
@@ -1303,36 +1303,7 @@ void applicationLoop() {
 				glm::value_ptr(glm::vec2(0.0, 0.0)));
 		glBindTexture(GL_TEXTURE_2D, 0);
 		*/
-		// Render del cyindro con materiales
-/*		glm::mat4 cylinderMaterialModel = glm::mat4(1.0);
-		cylinderMaterialModel = glm::translate(cylinderMaterialModel,  glm::vec3(3.0, 0.5, -3.0));
-		shaderMaterialLighting.setVectorFloat3("material.ambient", glm::value_ptr(glm::vec3(0.61424f, 0.04136f, 0.04136f)));
-		shaderMaterialLighting.setVectorFloat3("material.diffuse", glm::value_ptr(glm::vec3(0.61424f, 0.04136f, 0.04136f)));
-		shaderMaterialLighting.setVectorFloat3("material.specular", glm::value_ptr(glm::vec3(0.727811f, 0.626959f, 0.626959f)));
-		shaderMaterialLighting.setFloat("material.shininess", 76.8f);
-		cylinderMaterials.render(cylinderMaterialModel);
-		glm::mat4 boxMaterialModel = glm::mat4(1.0f);
-		boxMaterialModel = glm::translate(boxMaterialModel, glm::vec3(-3.0, 0.5, -3.0));
-		shaderMaterialLighting.setVectorFloat3("material.ambient", glm::value_ptr(glm::vec3(0.61424f, 0.04136f, 0.04136f)));
-		shaderMaterialLighting.setVectorFloat3("material.diffuse", glm::value_ptr(glm::vec3(0.61424f, 0.04136f, 0.04136f)));
-		shaderMaterialLighting.setVectorFloat3("material.specular", glm::value_ptr(glm::vec3(0.727811f, 0.626959f, 0.626959f)));
-		shaderMaterialLighting.setFloat("material.shininess", 76.8f);
-		boxMaterials.render(boxMaterialModel);
-		//Models complex render
-		glm::mat4 matrixModelRock = glm::mat4(1.0);
-		matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-3.0, 0.0, 6.0));
-		modelRock.render(matrixModelRock);
-		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
-		glActiveTexture(GL_TEXTURE0);
-		// Esto es para las vias del tren
-		glm::mat4 matrixModelRailroad = glm::mat4(1.0);
-		matrixModelRailroad = glm::translate(matrixModelRailroad, glm::vec3(3.0, 0.0, 10.0));
-		modelRailRoad.render(matrixModelRailroad);
-		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
-		glActiveTexture(GL_TEXTURE0);
-		/*
-		* Se construye la casa
-		*/
+
 		//Models complex render
 		glm::mat4 matrixModelRock = glm::mat4(1.0);
 		matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-8.0, 5.0, 6.0));
