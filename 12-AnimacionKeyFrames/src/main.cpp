@@ -505,7 +505,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
 
 	modelTable2.loadModel("../models/table/table.obj");
@@ -629,7 +629,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);*/
+	modelPinata.setShader(&shaderMulLighting);
 
 	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
 
@@ -2126,6 +2126,17 @@ bool processInput(bool continueApplication) {
 		alSourcePlay(sources[0]);
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		alSourcePlay(sources[1]);
+
+
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+		camera->setPosition(glm::vec3(-27.5, 1.6, 5.0));
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+		 camera->setPosition(glm::vec3(1.0, 3.3, 3.0));
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+		camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
+	}
 
 	glfwPollEvents();
 	return continueApplication;
