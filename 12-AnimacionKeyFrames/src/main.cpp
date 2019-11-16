@@ -505,133 +505,90 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
-
 	modelTable2.loadModel("../models/table/table.obj");
 	modelTable2.setShader(&shaderMulLighting);
-
 	modelSala.loadModel("../models/sofa/sofa.obj");
 	modelSala.setShader(&shaderMulLighting);
-
 	modelRosa.loadModel("../models/rosa/rosa.obj");
 	modelRosa.setShader(&shaderMulLighting);
-
 	modelMaceta.loadModel("../models/plantamaceta/plantamaceta.obj");
 	modelMaceta.setShader(&shaderMulLighting);
-
 	modelJardinera.loadModel("../models/jardinera/jardinera.obj");
 	modelJardinera.setShader(&shaderMulLighting);
-
-
 	modelSalap.loadModel("../models/sofap/sofap.obj");
 	modelSalap.setShader(&shaderMulLighting);
-
-
 	modelToilet.loadModel("../models/toilet/toilet.obj");
 	modelToilet.setShader(&shaderMulLighting);
-
 	modelHandWash.loadModel("../models/lavamanos/bathroom_vanity.obj");
 	modelHandWash.setShader(&shaderMulLighting);
-
 	modelLampara.loadModel("../models/lampara1/lampara.obj");
 	modelLampara.setShader(&shaderMulLighting);
-
 	modelBed.loadModel("../models/bed/bed2.obj");
 	modelBed.setShader(&shaderMulLighting);
-
 	modelMueble2.loadModel("../models/mesasala/Mesa.obj");
 	modelMueble2.setShader(&shaderMulLighting);
-
 	modelMuebleTV.loadModel("../models/pooltv/Pooltv.obj");
 	modelMuebleTV.setShader(&shaderMulLighting);
-
 	modelCloset.loadModel("../models/closet/closet.obj");
 	modelCloset.setShader(&shaderMulLighting);
-
 	modelKitchen.loadModel("../models/panelkonha/panelkonha1.obj");
 	modelKitchen.setShader(&shaderMulLighting);
-
 	modelRefrigerator.loadModel("../models/refrigerator/refrigerator.obj");
 	modelRefrigerator.setShader(&shaderMulLighting);
-
 	////////////////////////
 	/////Decoración/////////
 	////////////////////////
-
 	modelCabine.loadModel("../models/cabine/cabine2.obj");
 	modelCabine.setShader(&shaderMulLighting);
-
 	modelTree.loadModel("../models/christmas_tree/Christmas+tree.obj");
 	modelTree.setShader(&shaderMulLighting);
-
 	modelStar.loadModel("../models/star_obj/gold_star.obj");
 	modelStar.setShader(&shaderMulLighting);
-
 	modelPiso.loadModel("../models/cabine/piso.obj");
 	modelPiso.setShader(&shaderMulLighting);
-
 	modelChBall1.loadModel("../models/Christmas_Bells_obj/ball1.obj");
 	modelChBall1.setShader(&shaderMulLighting);
-
 	modelChBall2.loadModel("../models/Christmas_Bells_obj/ball2.obj");
 	modelChBall2.setShader(&shaderMulLighting);
-
 	modelChBall3.loadModel("../models/Christmas_Bells_obj/ball3.obj");
 	modelChBall3.setShader(&shaderMulLighting);
-
 	modelChBall4.loadModel("../models/Christmas_Bells_obj/ball4.obj");
 	modelChBall4.setShader(&shaderMulLighting);
-
 	modelChBall5.loadModel("../models/Christmas_Bells_obj/ball5.obj");
 	modelChBall5.setShader(&shaderMulLighting);
-
 	modelRegalo1.loadModel("../models/regalos/regalo1.obj");
 	modelRegalo1.setShader(&shaderMulLighting);
-
 	modelRegalo2.loadModel("../models/regalos/regalo2.obj");
 	modelRegalo2.setShader(&shaderMulLighting);
-
 	modelRegalo3.loadModel("../models/regalos/regalo3.obj");
 	modelRegalo3.setShader(&shaderMulLighting);
-
-
-
 	modelCamello.loadModel("../models/jirafa/camel.obj");
 	modelCamello.setShader(&shaderMulLighting);
-
 	modelCow.loadModel("../models/cow/cow.obj");
 	modelCow.setShader(&shaderMulLighting);
-
 	modelDeer.loadModel("../models/deer/deer.obj");
 	modelDeer.setShader(&shaderMulLighting);
-
 	modelSheep.loadModel("../models/sheep2/sheep2.obj");
 	modelSheep.setShader(&shaderMulLighting);
-
 	modelChicken.loadModel("../models/chicken/chicken.obj");
 	modelChicken.setShader(&shaderMulLighting);
-
 	snowMan.loadModel("../models/SnowMan/SnowMan.obj");
 	snowMan.setShader(&shaderMulLighting);
-
 	modelTrineo.loadModel("../models/trineo/trineo.obj");
 	modelTrineo.setShader(&shaderMulLighting);
-
-
 	modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
 	modelNocheBuena.setShader(&shaderMulLighting);
-
 	modelBaston.loadModel("../models/baston/baston1.obj");
 	modelBaston.setShader(&shaderMulLighting);
-
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
-
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);*/
+	modelPinata.setShader(&shaderMulLighting);
 
 	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
+
 
 	// Descomentar
 	// Definimos el tamanio de la imagen
@@ -2274,7 +2231,7 @@ void applicationLoop() {
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if (currTime - lastTime < 0.016666667) {
+		if (currTime - lastTime < 0.0016666667) {
 			glfwPollEvents();
 			continue;
 		}
@@ -2578,12 +2535,12 @@ void applicationLoop() {
 		////////////////////////////////////////////////////////////////////////////Luces dentro de la casa//////////////////////////////////
 		///Amarillo
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(6.95 - 5, 1.7, 4.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 30, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 2
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(6.95 - 4, 1.7, 4.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 29, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 3
@@ -5709,14 +5666,14 @@ void applicationLoop() {
 		modelApple.render(glm::scale(matrixModelApple22, glm::vec3(0.13, 0.13, 0.13)));
 		/////////////Vela
 		glm::mat4 velamodel = glm::mat4(3.0);
-		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 5, 1.6, 4.0));
+		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 30, 1.6, 4.0));
 		glBindTexture(GL_TEXTURE_2D, textureIDv2);
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(velamodel, glm::vec3(1.0, 1.0, 0.001)));
 		glBindTexture(GL_TEXTURE_2D, 0);
 		/////////////Vela 2
 		glm::mat4 velamodel2 = glm::mat4(3.0);
-		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 4, 1.6, 4.0));
+		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 29, 1.6, 4.0));
 		glBindTexture(GL_TEXTURE_2D, textureIDv2);
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(velamodel2, glm::vec3(1.0, 1.0, 0.001)));
@@ -5820,15 +5777,15 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		/////////////////////////////////////////////
-		
+
 		glm::mat4 modelflor = glm::mat4(1.0);
-		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 5, 1.1, 5.5));
+		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 30, 1.1, 5.5));
 		glBindTexture(GL_TEXTURE_2D, textureflorID1);
 		shaderTexture.setFloat("offsetX", offX);
 		box2.render(glm::scale(modelflor, glm::vec3(5.0, 0.01, 5.0)));
 		shaderTexture.setFloat("offsetX", 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////Papel picado (Azul)
 		glm::mat4 ppicadoazul = glm::mat4(3.0);
