@@ -586,7 +586,6 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
 	modelPinata.setShader(&shaderMulLighting);
-
 	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
 
 
@@ -2149,6 +2148,17 @@ bool processInput(bool continueApplication) {
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		alSourcePlay(sources[1]);
 
+	//camara
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+		camera->setPosition(glm::vec3(-27.5, 1.6, 5.0));
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+		camera->setPosition(glm::vec3(1.0, 3.3, 3.0));
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+		camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
+	}
+
 	glfwPollEvents();
 	return continueApplication;
 }
@@ -2202,14 +2212,14 @@ void applicationLoop() {
 	modelMatrixHeliChasis = glm::translate(modelMatrixHeliChasis, glm::vec3(20, 20, 0));
 
 	glm::mat4 matrixModelRegalo1 = glm::mat4(1.0);
-	matrixModelRegalo1 = glm::translate(matrixModelRegalo1, glm::vec3(-4.5, 2.6, 3.5));
+	matrixModelRegalo1 = glm::translate(matrixModelRegalo1, glm::vec3(-4.5, 2.4, 3.5));
 
 	glm::mat4 matrixModelRegalo2 = glm::mat4(1.0);
 	matrixModelRegalo2 = glm::translate(matrixModelRegalo2, glm::vec3(-3.2, 2.4, 3.5));
 	matrixModelRegalo2 = glm::rotate(matrixModelRegalo2, glm::radians(45.0f), glm::vec3(0.0, 1.0, 0.0));
 
 	glm::mat4 matrixModelRegalo3 = glm::mat4(1.0);
-	matrixModelRegalo3 = glm::translate(matrixModelRegalo3, glm::vec3(-2.5, 2.4, 4.5));
+	matrixModelRegalo3 = glm::translate(matrixModelRegalo3, glm::vec3(-2.5, 2.6, 4.5));
 
 
 
@@ -2224,14 +2234,10 @@ void applicationLoop() {
 	float offsetHeliAdvance = 0.0;
 
 	float offsetRegalo1 = 0.0;
-	float offsetRegalo2 = 0.0;
-	float offsetRegalo3 = 0.0;
-
-	////////////aqui termina////////////////
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if (currTime - lastTime < 0.0016666667) {
+		if (currTime - lastTime < 0.016666667) {
 			glfwPollEvents();
 			continue;
 		}
