@@ -1950,6 +1950,31 @@ void destroy() {
 	modelPinata.destroy();
 	modelPiso.destroy();
 	modelSantaHat.destroy();
+
+
+	modelRock.destroy();
+	modelApple.destroy();
+	modelBanana.destroy();
+	modelCouch.destroy();
+	modelLamp.destroy();
+
+	modelOrange.destroy();
+	modelPM.destroy();
+	modelTable.destroy();
+	modelChimney.destroy();
+	sofa.destroy();
+	modelCalabaza.destroy();
+
+	// Dart Lego
+	modelDartLegoBody.destroy();
+	modelDartLegoMask.destroy();
+	modelDartLegoHead.destroy();
+	modelDartLegoLeftArm.destroy();
+	modelDartLegoRightArm.destroy();
+	modelDartLegoLeftHand.destroy();
+	modelDartLegoRightHand.destroy();
+	modelDartLegoLeftLeg.destroy();
+	modelDartLegoRightLeg.destroy();
 }
 
 void reshapeCallback(GLFWwindow* Window, int widthRes, int heightRes) {
@@ -2169,7 +2194,7 @@ void applicationLoop() {
 	glm::mat4 modelMatrixHeli = glm::mat4(1.0f);
 
 	glm::mat4 modelMatrixDart = glm::mat4(1.0f);
-	modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(3.0 - 30, -2.0, 20.0));
+	modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(-33, -2.5, 20.0));
 	modelMatrixDart = glm::scale(modelMatrixDart, glm::vec3(0.5, 0.5, 0.5));
 
 	// Variables to interpolation key frames
@@ -2237,7 +2262,7 @@ void applicationLoop() {
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if (currTime - lastTime < 0.016666667) {
+		if (currTime - lastTime < 0.0016666667) {
 			glfwPollEvents();
 			continue;
 		}
