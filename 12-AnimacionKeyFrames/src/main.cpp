@@ -505,7 +505,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
 	modelTable2.loadModel("../models/table/table.obj");
 	modelTable2.setShader(&shaderMulLighting);
@@ -585,9 +585,10 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);*/
+	modelPinata.setShader(&shaderMulLighting);
 
 	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
+
 
 	// Descomentar
 	// Definimos el tamanio de la imagen
@@ -2230,7 +2231,7 @@ void applicationLoop() {
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if (currTime - lastTime < 0.016666667) {
+		if (currTime - lastTime < 0.0016666667) {
 			glfwPollEvents();
 			continue;
 		}
@@ -2534,12 +2535,12 @@ void applicationLoop() {
 		////////////////////////////////////////////////////////////////////////////Luces dentro de la casa//////////////////////////////////
 		///Amarillo
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(6.95 - 5, 1.7, 4.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 30, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 2
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(6.95 - 4, 1.7, 4.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 29, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 3
@@ -5665,14 +5666,14 @@ void applicationLoop() {
 		modelApple.render(glm::scale(matrixModelApple22, glm::vec3(0.13, 0.13, 0.13)));
 		/////////////Vela
 		glm::mat4 velamodel = glm::mat4(3.0);
-		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 5, 1.6, 4.0));
+		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 30, 1.6, 4.0));
 		glBindTexture(GL_TEXTURE_2D, textureIDv2);
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(velamodel, glm::vec3(1.0, 1.0, 0.001)));
 		glBindTexture(GL_TEXTURE_2D, 0);
 		/////////////Vela 2
 		glm::mat4 velamodel2 = glm::mat4(3.0);
-		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 4, 1.6, 4.0));
+		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 29, 1.6, 4.0));
 		glBindTexture(GL_TEXTURE_2D, textureIDv2);
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(velamodel2, glm::vec3(1.0, 1.0, 0.001)));
@@ -5778,7 +5779,7 @@ void applicationLoop() {
 		/////////////////////////////////////////////
 
 		glm::mat4 modelflor = glm::mat4(1.0);
-		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 5, 1.1, 5.5));
+		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 30, 1.1, 5.5));
 		glBindTexture(GL_TEXTURE_2D, textureflorID1);
 		shaderTexture.setFloat("offsetX", offX);
 		box2.render(glm::scale(modelflor, glm::vec3(5.0, 0.01, 5.0)));
