@@ -115,9 +115,9 @@ Model modelApple, modelBanana, modelCouch, modelLamp, modelMandarine, modelOrang
 GLuint textureID1G, textureID2G, textureID7G, textureID8G, textureID9G, textureID20M, textureID20P, textureIDM, textureIDV;
 GLuint textureIDR;
 GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9;
-GLuint textureID10, textureID11, textureID12, textureID13, textureID14, textureID15, textureID16, textureID17;
+GLuint textureID10, textureID11, textureID12, textureID13, textureID14, textureID15, textureID16, textureID17, textureIDv2;
 GLuint textureID18, textureID19, textureID20, textureID21, textureID22, textureID23, textureID24, textureID25;
-GLuint textureID26, textureID27;//, textureID28, textureID29, textureID30, textureID31, textureID32, textureID33;
+GLuint textureID26, textureID27, textureflorID1;;//, textureID28, textureID29, textureID30, textureID31, textureID32, textureID33;
 
 int offset1 = 1;
 int offset2 = 4;
@@ -505,131 +505,87 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
-
 	modelTable2.loadModel("../models/table/table.obj");
 	modelTable2.setShader(&shaderMulLighting);
-
 	modelSala.loadModel("../models/sofa/sofa.obj");
 	modelSala.setShader(&shaderMulLighting);
-	
 	modelRosa.loadModel("../models/rosa/rosa.obj");
 	modelRosa.setShader(&shaderMulLighting);
-
 	modelMaceta.loadModel("../models/plantamaceta/plantamaceta.obj");
 	modelMaceta.setShader(&shaderMulLighting);
-
 	modelJardinera.loadModel("../models/jardinera/jardinera.obj");
 	modelJardinera.setShader(&shaderMulLighting);
-
-
 	modelSalap.loadModel("../models/sofap/sofap.obj");
 	modelSalap.setShader(&shaderMulLighting);
-
-
 	modelToilet.loadModel("../models/toilet/toilet.obj");
 	modelToilet.setShader(&shaderMulLighting);
-
 	modelHandWash.loadModel("../models/lavamanos/bathroom_vanity.obj");
 	modelHandWash.setShader(&shaderMulLighting);
-
 	modelLampara.loadModel("../models/lampara1/lampara.obj");
 	modelLampara.setShader(&shaderMulLighting);
-
 	modelBed.loadModel("../models/bed/bed2.obj");
 	modelBed.setShader(&shaderMulLighting);
-
 	modelMueble2.loadModel("../models/mesasala/Mesa.obj");
 	modelMueble2.setShader(&shaderMulLighting);
-
 	modelMuebleTV.loadModel("../models/pooltv/Pooltv.obj");
 	modelMuebleTV.setShader(&shaderMulLighting);
-
 	modelCloset.loadModel("../models/closet/closet.obj");
 	modelCloset.setShader(&shaderMulLighting);
-
 	modelKitchen.loadModel("../models/panelkonha/panelkonha1.obj");
 	modelKitchen.setShader(&shaderMulLighting);
-
 	modelRefrigerator.loadModel("../models/refrigerator/refrigerator.obj");
 	modelRefrigerator.setShader(&shaderMulLighting);
-	
 	////////////////////////
 	/////Decoración/////////
 	////////////////////////
-
 	modelCabine.loadModel("../models/cabine/cabine2.obj");
 	modelCabine.setShader(&shaderMulLighting);
-
 	modelTree.loadModel("../models/christmas_tree/Christmas+tree.obj");
 	modelTree.setShader(&shaderMulLighting);
-
 	modelStar.loadModel("../models/star_obj/gold_star.obj");
 	modelStar.setShader(&shaderMulLighting);
-
 	modelPiso.loadModel("../models/cabine/piso.obj");
 	modelPiso.setShader(&shaderMulLighting);
-
 	modelChBall1.loadModel("../models/Christmas_Bells_obj/ball1.obj");
 	modelChBall1.setShader(&shaderMulLighting);
-
 	modelChBall2.loadModel("../models/Christmas_Bells_obj/ball2.obj");
 	modelChBall2.setShader(&shaderMulLighting);
-
 	modelChBall3.loadModel("../models/Christmas_Bells_obj/ball3.obj");
 	modelChBall3.setShader(&shaderMulLighting);
-
 	modelChBall4.loadModel("../models/Christmas_Bells_obj/ball4.obj");
 	modelChBall4.setShader(&shaderMulLighting);
-
 	modelChBall5.loadModel("../models/Christmas_Bells_obj/ball5.obj");
 	modelChBall5.setShader(&shaderMulLighting);
-
 	modelRegalo1.loadModel("../models/regalos/regalo1.obj");
 	modelRegalo1.setShader(&shaderMulLighting);
-
 	modelRegalo2.loadModel("../models/regalos/regalo2.obj");
 	modelRegalo2.setShader(&shaderMulLighting);
-
 	modelRegalo3.loadModel("../models/regalos/regalo3.obj");
 	modelRegalo3.setShader(&shaderMulLighting);
-
-
-
 	modelCamello.loadModel("../models/jirafa/camel.obj");
 	modelCamello.setShader(&shaderMulLighting);
-
 	modelCow.loadModel("../models/cow/cow.obj");
 	modelCow.setShader(&shaderMulLighting);
-
 	modelDeer.loadModel("../models/deer/deer.obj");
 	modelDeer.setShader(&shaderMulLighting);
-
 	modelSheep.loadModel("../models/sheep2/sheep2.obj");
 	modelSheep.setShader(&shaderMulLighting);
-
 	modelChicken.loadModel("../models/chicken/chicken.obj");
 	modelChicken.setShader(&shaderMulLighting);
-
 	snowMan.loadModel("../models/SnowMan/SnowMan.obj");
 	snowMan.setShader(&shaderMulLighting);
-
 	modelTrineo.loadModel("../models/trineo/trineo.obj");
 	modelTrineo.setShader(&shaderMulLighting);
-
-
 	modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
 	modelNocheBuena.setShader(&shaderMulLighting);
-
 	modelBaston.loadModel("../models/baston/baston1.obj");
 	modelBaston.setShader(&shaderMulLighting);
-
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
-
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);
+	modelPinata.setShader(&shaderMulLighting);*/
 
 	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
 
@@ -839,6 +795,39 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Libera la memoria de la textura
 	texture9G.freeImage(bitmap);
 
+	// Definiendo la textura a utilizar
+	Texture textureflor("../Textures/flor.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = textureflor.loadImage();
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = textureflor.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureflorID1);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureflorID1);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	texture9G.freeImage(bitmap);
+
+
 	Texture texture20G("../Textures/marco.jpg");
 	//Carga el mapa de bits(Es el tipo de dato de la libreria)
 	///Esto para voltear mi imagen
@@ -900,6 +889,38 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	else
 		std::cout << "Failed to load texture" << std::endl;
 	texturePicado.freeImage(bitmap);
+	/////////Vela
+	// Definiendo la textura a utilizar
+	Texture texturev2("../Textures/vela.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = texturev2.loadImage();
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = texturev2.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureIDv2);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureIDv2);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+
 	////////////////////////////////////////////////////Textura Vela//////////////////////////////////////////////
 	Texture texturePicadoM("../Textures/ladrillos_picado_morado.png");
 	//Carga el mapa de bits(Es el tipo de dato de la libreria)
@@ -2127,17 +2148,6 @@ bool processInput(bool continueApplication) {
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		alSourcePlay(sources[1]);
 
-
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		camera->setPosition(glm::vec3(-27.5, 1.6, 5.0));
-	}
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		 camera->setPosition(glm::vec3(1.0, 3.3, 3.0));
-	}
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
-	}
-
 	glfwPollEvents();
 	return continueApplication;
 }
@@ -2524,12 +2534,12 @@ void applicationLoop() {
 		////////////////////////////////////////////////////////////////////////////Luces dentro de la casa//////////////////////////////////
 		///Amarillo
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(9.0 - 30, 0.0, 1.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 5, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 2
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(2.0 - 30, 0.0, 6.0));
+		sphereLamp.setPosition(glm::vec3(6.95 - 4, 1.7, 4.0));
 		sphereLamp.setColor(glm::vec4(1.0, 1.0, 0.0, 1.0));
 		sphereLamp.render();
 		///Amarillo 3
@@ -5531,7 +5541,7 @@ void applicationLoop() {
 		matrixModelChimney = glm::translate(matrixModelChimney, glm::vec3(6.0 - 30, -1.0, 10.5));
 		modelChimney.render(glm::scale(matrixModelChimney, glm::vec3(0.3, 0.3, 0.3)));
 
-		
+
 		glm::mat4 matrixModelpupitre = glm::mat4(1.0);
 		matrixModelpupitre = glm::translate(matrixModelpupitre, glm::vec3(9.0 - 30, -1.0, 4.0));
 		sofa.render(glm::scale(matrixModelpupitre, glm::vec3(0.2, 0.2, 0.2)));
@@ -5653,6 +5663,21 @@ void applicationLoop() {
 		glm::mat4 matrixModelApple22 = glm::mat4(1.0);
 		matrixModelApple22 = glm::translate(matrixModelApple22, glm::vec3(5.4 - 30, 1.63, 3.4));
 		modelApple.render(glm::scale(matrixModelApple22, glm::vec3(0.13, 0.13, 0.13)));
+		/////////////Vela
+		glm::mat4 velamodel = glm::mat4(3.0);
+		velamodel = glm::translate(velamodel, glm::vec3(6.95 - 5, 1.6, 4.0));
+		glBindTexture(GL_TEXTURE_2D, textureIDv2);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(velamodel, glm::vec3(1.0, 1.0, 0.001)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+		/////////////Vela 2
+		glm::mat4 velamodel2 = glm::mat4(3.0);
+		velamodel2 = glm::translate(velamodel2, glm::vec3(6.95 - 4, 1.6, 4.0));
+		glBindTexture(GL_TEXTURE_2D, textureIDv2);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(velamodel2, glm::vec3(1.0, 1.0, 0.001)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 		///
 				////Modelo apple
 		glm::mat4 matrixModelApple13 = glm::mat4(1.0);
@@ -5749,6 +5774,17 @@ void applicationLoop() {
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(retrato, glm::vec3(1.5, 1.5, 0.001)));
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		/////////////////////////////////////////////
+
+		glm::mat4 modelflor = glm::mat4(1.0);
+		modelflor = glm::translate(modelflor, glm::vec3(5.5 - 5, 1.1, 5.5));
+		glBindTexture(GL_TEXTURE_2D, textureflorID1);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(glm::scale(modelflor, glm::vec3(5.0, 0.01, 5.0)));
+		shaderTexture.setFloat("offsetX", 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////Papel picado (Azul)
 		glm::mat4 ppicadoazul = glm::mat4(3.0);
@@ -5905,7 +5941,7 @@ void applicationLoop() {
 		matrixModelTabla3 = glm::translate(matrixModelTabla3, glm::vec3(9.0 - 30, -1.0, 2.0));
 		modelTable.render(glm::scale(matrixModelTabla3, glm::vec3(0.5, 0.5, 0.5)));
 		glActiveTexture(GL_TEXTURE0);
-	
+
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////PArte Trasera 0//////////////////////////////////////////////////////////////////////////
