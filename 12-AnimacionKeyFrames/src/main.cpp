@@ -86,6 +86,9 @@ Shader shaderSkybox;
 Shader shaderMulLighting;
 
 std::shared_ptr<FirstPersonCamera> camera(new FirstPersonCamera());
+std::shared_ptr<FirstPersonCamera> camera_halloween(new FirstPersonCamera());
+std::shared_ptr<FirstPersonCamera> camara_ofrenda(new FirstPersonCamera());
+std::shared_ptr<FirstPersonCamera> camara_nacimiento(new FirstPersonCamera());
 
 Sphere sphere1(20, 20);
 Sphere sphere2(20, 20);
@@ -124,6 +127,8 @@ int offset2 = 4;
 int offset3 = 7;
 int offset4 = 7;
 int offset5 = 4;
+	
+int numberCamera = 1;
 float offsetState = 0.0;
 
 GLuint skyboxTextureID;
@@ -428,7 +433,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelTable.setShader(&shaderMulLighting);
 	modelChimney.loadModel("../models/Chimney/Chimenea.obj");
 	modelChimney.setShader(&shaderMulLighting);
-	/**/
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///Modelo Pupitre
@@ -443,7 +448,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	////////
 
 	// Dart Lego
-	modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
+	/*modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
 	modelDartLegoBody.setShader(&shaderMulLighting);
 	modelDartLegoMask.loadModel("../models/LegoDart/LeoDart_mask.obj");
 	modelDartLegoMask.setShader(&shaderMulLighting);
@@ -585,8 +590,18 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);
-	camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
+	modelPinata.setShader(&shaderMulLighting);*/
+	camera->setPosition(glm::vec3(0.0, 2.8, 25.0));
+	camera->setSensitivity(1);
+
+	camera_halloween->setPosition(glm::vec3(-26, 2.8, 25.0));
+	camera_halloween->setSensitivity(1);
+
+	camara_nacimiento->setPosition(glm::vec3(2.0, 2.8, 0.0));
+	camara_nacimiento->setFront(glm::vec3(0.0, 0.0, 1.0));
+
+
+	camara_ofrenda->setPosition(glm::vec3(-25, 2.3, 9.0));
 
 
 	// Descomentar
@@ -2022,17 +2037,30 @@ bool processInput(bool continueApplication) {
 	if (exitApp || glfwWindowShouldClose(window) != 0) {
 		return false;
 	}
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->moveFrontCamera(true, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->moveFrontCamera(false, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->moveRightCamera(false, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->moveRightCamera(true, deltaTime);
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-		camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
+	if (numberCamera == 1) {
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera->moveFrontCamera(true, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera->moveFrontCamera(false, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera->moveRightCamera(false, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera->moveRightCamera(true, deltaTime);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
+	}
+	if (numberCamera == 2) {
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera_halloween->moveFrontCamera(true, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera_halloween->moveFrontCamera(false, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera_halloween->moveRightCamera(false, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera_halloween->moveRightCamera(true, deltaTime);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+			camera_halloween->mouseMoveCamera(offsetX, offsetY, deltaTime);
+	}
 	offsetX = 0;
 	offsetY = 0;
 
@@ -2173,16 +2201,19 @@ bool processInput(bool continueApplication) {
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		alSourcePlay(sources[1]);
 
-	//camara
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		camera->setPosition(glm::vec3(-27.5, 1.6, 5.0));
-	}
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		camera->setPosition(glm::vec3(1.0, 3.3, 3.0));
-	}
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		camera->setPosition(glm::vec3(-4.5, 4.8, 15.0));
-	}
+	//camara libre navidad
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+		numberCamera = 1 ;
+	//camara libre halloween
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+		numberCamera = 2;
+	//camara fija halloween
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+		numberCamera = 4;
+	//camara fija navidad
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+		numberCamera = 3;
+
 
 	glfwPollEvents();
 	return continueApplication;
@@ -2262,7 +2293,7 @@ void applicationLoop() {
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if (currTime - lastTime < 0.0016666667) {
+		if (currTime - lastTime < 0.00016666667) {
 			glfwPollEvents();
 			continue;
 		}
@@ -2278,89 +2309,345 @@ void applicationLoop() {
 
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
 			(float)screenWidth / (float)screenHeight, 0.01f, 100.0f);
-		glm::mat4 view = camera->getViewMatrix();
+		if (numberCamera == 1) {
+			glm::mat4 view = camera->getViewMatrix();
 
-		// Settea la matriz de vista y projection al shader con solo color
-		shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
-		shader.setMatrix4("view", 1, false, glm::value_ptr(view));
-		// Settea la matriz de vista y projection al shader con solo textura
-		shaderTexture.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
 
-		// Settea la matriz de vista y projection al shader con iluminacion solo color
-		shaderColorLighting.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
 
-		// Settea la matriz de vista y projection al shader con iluminacion con textura
-		shaderTextureLighting.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderTextureLighting.setMatrix4("view", 1, false,
-			glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
 
-		// Settea la matriz de vista y projection al shader con iluminacion con material
-		shaderMaterialLighting.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderMaterialLighting.setMatrix4("view", 1, false,
-			glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
 
-		// Settea la matriz de vista y projection al shader con skybox
-		shaderSkybox.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderSkybox.setMatrix4("view", 1, false,
-			glm::value_ptr(glm::mat4(glm::mat3(view))));
-		// Settea la matriz de vista y projection al shader con multiples luces
-		shaderMulLighting.setMatrix4("projection", 1, false,
-			glm::value_ptr(projection));
-		shaderMulLighting.setMatrix4("view", 1, false,
-			glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
 
-		// Propiedades de la luz para objetos con color
-		shaderColorLighting.setVectorFloat3("viewPos",
-			glm::value_ptr(camera->getPosition()));
-		shaderColorLighting.setVectorFloat3("light.ambient",
-			glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderColorLighting.setVectorFloat3("light.diffuse",
-			glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderColorLighting.setVectorFloat3("light.specular",
-			glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camera->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
 
-		// Propiedades de la luz para objetos con textura
-		shaderTextureLighting.setVectorFloat3("viewPos",
-			glm::value_ptr(camera->getPosition()));
-		shaderTextureLighting.setVectorFloat3("light.ambient",
-			glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderTextureLighting.setVectorFloat3("light.diffuse",
-			glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderTextureLighting.setVectorFloat3("light.specular",
-			glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camera->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
 
-		// Propiedades de la luz para objetos con textura
-		shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
-		shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
 
-		// Propiedades de la luz para objetos con multiples luces
-		shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
-		shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
-		shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
-		// Esto es para la luz spotlight
-		shaderMulLighting.setInt("spotLightCount", 2);
-		shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camera->getPosition()));
-		shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camera->getFront()));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
-		shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
-		shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
-		shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
-		shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
-		shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camera->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camera->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
 
+		if (numberCamera == 2) {
+			glm::mat4 view = camera_halloween->getViewMatrix();
+
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camera_halloween->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camera_halloween->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camera_halloween->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camera_halloween->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camera_halloween->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camera_halloween->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
+
+		if (numberCamera == 3) {
+			glm::mat4 view = camara_nacimiento->getViewMatrix();
+
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camara_nacimiento->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camara_nacimiento->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camara_nacimiento->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camara_nacimiento->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camara_nacimiento->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camara_nacimiento->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
+
+		if (numberCamera == 4) {
+			glm::mat4 view = camara_ofrenda->getViewMatrix();
+
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camara_ofrenda->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camara_ofrenda->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camara_ofrenda->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camara_ofrenda->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camara_ofrenda->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camara_ofrenda->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
 		shaderMulLighting.setVectorFloat3("spotLights[1].position", glm::value_ptr(glm::vec3(3.0, 8.0, 3.0)));
 		shaderMulLighting.setVectorFloat3("spotLights[1].direction", glm::value_ptr(glm::vec3(0.0, -1.0, 0.0)));
 		shaderMulLighting.setVectorFloat3("spotLights[1].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
@@ -8355,6 +8642,8 @@ void applicationLoop() {
 		default:
 			break;
 		}
+
+
 
 
 		// Dart lego

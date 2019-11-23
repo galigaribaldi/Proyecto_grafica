@@ -37,6 +37,10 @@ public:
 		return this->front;
 	}
 
+	void setFront(glm::vec3 front) {
+		this->front = front;
+	}
+
 	float getSensitivity() {
 		return this->sensitivity;
 	}
