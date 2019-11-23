@@ -122,11 +122,30 @@ GLuint textureID10, textureID11, textureID12, textureID13, textureID14, textureI
 GLuint textureID18, textureID19, textureID20, textureID21, textureID22, textureID23, textureID24, textureID25;
 GLuint textureID26, textureID27, textureflorID1;;//, textureID28, textureID29, textureID30, textureID31, textureID32, textureID33;
 
+//Offsets luces navideñas
 int offset1 = 1;
 int offset2 = 4;
 int offset3 = 7;
 int offset4 = 7;
 int offset5 = 4;
+
+//On-off luces 
+int lightState = 100;
+
+float onOffSala = 7;
+float onOffComedor = 7;
+float onOffCocina = 7;
+float onOffBanio = 7;
+float onOffRecamara1 = 7;
+float onOffRecamara2 = 7;
+float onOffRecamara3 = 7;
+float onOffHabitacionArbol = 7;
+float onOffCochera = 7;
+
+float cam1posx = 0.0;
+float cam1posy = 0.0;
+float cam1posz = 0.0;
+////////////////////
 	
 int numberCamera = 1;
 float offsetState = 0.0;
@@ -448,7 +467,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	////////
 
 	// Dart Lego
-	/*modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
+	modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
 	modelDartLegoBody.setShader(&shaderMulLighting);
 	modelDartLegoMask.loadModel("../models/LegoDart/LeoDart_mask.obj");
 	modelDartLegoMask.setShader(&shaderMulLighting);
@@ -590,7 +609,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);*/
+	modelPinata.setShader(&shaderMulLighting);
+
 	camera->setPosition(glm::vec3(0.0, 2.8, 25.0));
 	camera->setSensitivity(1);
 
@@ -2219,6 +2239,15 @@ bool processInput(bool continueApplication) {
 	return continueApplication;
 }
 
+bool camera_is_in(float x1, float x2, float y1, float y2, float z1, float z2) {
+	float x, y, z;
+	x = camera->getPosition().x;
+	y = camera->getPosition().y;
+	z = camera->getPosition().z;
+	return x > x1 and x < x2 and y > y1 and y < y2 and z > z1 and z < z2;
+
+}
+
 void applicationLoop() {
 	bool psi = true;
 
@@ -2661,7 +2690,7 @@ void applicationLoop() {
 
 		// Esto es para la luces pointlights(Actuan como si fueran un foco)
 		// Numero de luces a utiliozar de tipo pointLights  = 3
-		shaderMulLighting.setInt("pointLightCount", 20);
+		shaderMulLighting.setInt("pointLightCount", 22);
 
 
 		shaderMulLighting.setVectorFloat3("pointLights[0].position", glm::value_ptr((glm::vec3(-3.1, 1.8, 7.0))));
@@ -2712,7 +2741,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[5].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[5].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[5].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[5].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[5].linear", onOffBanio);
 		shaderMulLighting.setFloat("pointLights[5].quadratic", 0.004);
 
 		//luz comedor
@@ -2721,7 +2750,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[6].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[6].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[6].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[6].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[6].linear", onOffComedor);
 		shaderMulLighting.setFloat("pointLights[6].quadratic", 0.004);
 
 
@@ -2731,7 +2760,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[7].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[7].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[7].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[7].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[7].linear", onOffCocina);
 		shaderMulLighting.setFloat("pointLights[7].quadratic", 0.004);
 
 		//luces sala
@@ -2740,7 +2769,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[8].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[8].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[8].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[8].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[8].linear", onOffSala);
 		shaderMulLighting.setFloat("pointLights[8].quadratic", 0.004);
 
 		shaderMulLighting.setVectorFloat3("pointLights[9].position", glm::value_ptr((glm::vec3(2.0, 1.0, 3.0))));
@@ -2748,7 +2777,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[9].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[9].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[9].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[9].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[9].linear", onOffSala);
 		shaderMulLighting.setFloat("pointLights[9].quadratic", 0.004);
 
 		//luz recamara abajo
@@ -2757,7 +2786,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[10].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[10].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[10].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[10].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[10].linear", onOffRecamara1);
 		shaderMulLighting.setFloat("pointLights[10].quadratic", 0.004);
 
 		//luz recamara 1
@@ -2766,7 +2795,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[11].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[11].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[11].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[11].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[11].linear", onOffRecamara2);
 		shaderMulLighting.setFloat("pointLights[11].quadratic", 0.004);
 
 		//luz recamara 2
@@ -2775,7 +2804,7 @@ void applicationLoop() {
 		shaderMulLighting.setVectorFloat3("pointLights[12].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
 		shaderMulLighting.setVectorFloat3("pointLights[12].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
 		shaderMulLighting.setFloat("pointLights[12].constant", 1.0);
-		shaderMulLighting.setFloat("pointLights[12].linear", 0.1);
+		shaderMulLighting.setFloat("pointLights[12].linear", onOffRecamara3);
 		shaderMulLighting.setFloat("pointLights[12].quadratic", 0.004);
 
 		//luz estrella
@@ -2839,6 +2868,26 @@ void applicationLoop() {
 		shaderMulLighting.setFloat("pointLights[19].constant", 1.0);
 		shaderMulLighting.setFloat("pointLights[19].linear", 0.04);
 		shaderMulLighting.setFloat("pointLights[19].quadratic", 0.004);
+
+
+		//luz habitacion arbol
+		shaderMulLighting.setVectorFloat3("pointLights[20].position", glm::value_ptr((glm::vec3(-1.5, 4.65, 0.0))));
+		shaderMulLighting.setVectorFloat3("pointLights[20].position", glm::value_ptr((glm::vec3(-1.5, 4.65, 0.0))));
+		shaderMulLighting.setVectorFloat3("pointLights[20].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
+		shaderMulLighting.setVectorFloat3("pointLights[20].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
+		shaderMulLighting.setVectorFloat3("pointLights[20].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
+		shaderMulLighting.setFloat("pointLights[20].constant", 1.0);
+		shaderMulLighting.setFloat("pointLights[20].linear", onOffHabitacionArbol);
+		shaderMulLighting.setFloat("pointLights[20].quadratic", 0.004);
+
+		//luz cochera
+		shaderMulLighting.setVectorFloat3("pointLights[21].position", glm::value_ptr((glm::vec3(-4.15, 1.0, 0.0))));
+		shaderMulLighting.setVectorFloat3("pointLights[21].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
+		shaderMulLighting.setVectorFloat3("pointLights[21].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
+		shaderMulLighting.setVectorFloat3("pointLights[21].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
+		shaderMulLighting.setFloat("pointLights[21].constant", 1.0);
+		shaderMulLighting.setFloat("pointLights[21].linear", onOffCochera);
+		shaderMulLighting.setFloat("pointLights[21].quadratic", 0.004);
 
 		//Esto es oara colocar las esferas de las luces
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
@@ -8080,6 +8129,18 @@ void applicationLoop() {
 		modelLampara.render(glm::scale(matrixModelLamp8, glm::vec3(0.2, 0.2, 0.2)));
 		glActiveTexture(GL_TEXTURE0);
 
+		//lampara cochera
+		glm::mat4 matrixModelLamp9 = glm::mat4(1.0);
+		matrixModelLamp9 = glm::translate(matrixModelLamp9, glm::vec3(-4.15, 1.0, 0.0));
+		modelLampara.render(glm::scale(matrixModelLamp9, glm::vec3(0.2, 0.2, 0.2)));
+		glActiveTexture(GL_TEXTURE0);
+
+		//lampara recamara arbol
+		glm::mat4 matrixModelLamp10 = glm::mat4(1.0);
+		matrixModelLamp10 = glm::translate(matrixModelLamp10, glm::vec3(-1.5, 4.65, 0.0));
+		modelLampara.render(glm::scale(matrixModelLamp10, glm::vec3(0.2, 0.2, 0.2)));
+		glActiveTexture(GL_TEXTURE0);
+
 
 
 
@@ -8643,9 +8704,6 @@ void applicationLoop() {
 			break;
 		}
 
-
-
-
 		// Dart lego
 		// Se deshabilita el cull faces IMPORTANTE para la capa
 		glDisable(GL_CULL_FACE);
@@ -8756,6 +8814,135 @@ void applicationLoop() {
 
 			modelMatrixDart = interpolate(keyFramesDart, indexFrameDart, indexFrameDartNext, 0, interpolationDart);
 		}
+
+		//////////////////////////////////////////////////////////////////////
+		////////////Condicionales para encender luces casa navidad/////////////////////////
+		//////////////////////////////////////////////////////////////////////
+		
+		//sala
+		if (numberCamera == 1) {		
+			if (camera_is_in(-2.3, 4.5, -1.5, 1.8, 0.0, 5.9)) {
+				onOffSala = 0.01;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//recamara1
+			else if (camera_is_in(4.5, 10.4, -1.5, 1.8, 2.0, 5.9)){
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 0.01;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//baño
+			else if (camera_is_in(-2.3, 0.4, -1.5, 1.8, -6.0, 0.0)){
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 0.01;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//comedor
+			else if (camera_is_in(0.4, 4.5, -1.5, 1.8, -6.0, 0.0)) {
+				onOffSala = 7;
+				onOffComedor = 0.01;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//cocina
+			else if (camera_is_in(4.5, 10.4, -1.5, 1.8, -6.0, 0.0)) {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 0.01;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//recamara 2
+			else if (camera_is_in(4.5, 10.4, 1.8, 5.9, 2.0, 5.9)) {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 0.01;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+
+			}
+			//recamara 3
+			else if (camera_is_in(4.5, 10.4, 1.8, 5.9, -6.0, 0.0)) {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 0.01;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+			//habitacion arbol
+			else if (camera_is_in(-6, 4.5, 1.8, 5.9, -6, 5.9)) {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 0.01;
+				onOffCochera = 7;
+			}
+			//cochera
+			else if (camera_is_in(-6, -2.3, -1.5, 1.8, -6, 5.9)) {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 0.01;
+			}//cualquier otro lugar, todo apagado
+			else {
+				onOffSala = 7;
+				onOffComedor = 7;
+				onOffCocina = 7;
+				onOffBanio = 7;
+				onOffRecamara1 = 7;
+				onOffRecamara2 = 7;
+				onOffRecamara3 = 7;
+				onOffHabitacionArbol = 7;
+				onOffCochera = 7;
+			}
+		}
+
+
 
 		/*******************************************
 		 * Skybox
