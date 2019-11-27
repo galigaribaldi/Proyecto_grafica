@@ -142,6 +142,12 @@ float onOffRecamara3 = 7;
 float onOffHabitacionArbol = 7;
 float onOffCochera = 7;
 
+//on-off de las luces de la casa de halloween
+float onOffLampara1 = 7;
+float onOffLampara2 = 7;
+float onOffLampara3 = 7;
+//*******************************
+
 float cam1posx = 0.0;
 float cam1posy = 0.0;
 float cam1posz = 0.0;
@@ -278,6 +284,8 @@ int numPasosDart = 0;
 
 double deltaTime;
 double currTime, lastTime;
+
+bool muestraPosicion = false;
 
 // Se definen todos las funciones.
 void reshapeCallback(GLFWwindow* Window, int widthRes, int heightRes);
@@ -2233,6 +2241,12 @@ bool processInput(bool continueApplication) {
 	//camara fija navidad
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 		numberCamera = 3;
+	
+	//evento que me permite saber la posicion de la camara, para obtener las posiciones de las luces puntuales de la casa halloween
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && numberCamera == 2) {
+		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
+		muestraPosicion = true;
+	}
 
 
 	glfwPollEvents();
@@ -2264,6 +2278,9 @@ void applicationLoop() {
 
 	lastTime = TimeManager::Instance().GetTime();
 
+	//*********** Varibles para calcular distancias entre objetos y la camara ***************************************************//
+	float distanciaCamaraHalloweenFoco1 = 4.0, distanciaCamaraHalloweenFoco2 = 4.0, distanciaCamaraHalloweenFoco3 = 4.0;
+
 	//////////////////aqui empieza lo mio////////////
 
 	glm::mat4 model = glm::mat4(1.0f);
@@ -2280,8 +2297,6 @@ void applicationLoop() {
 	float rotWheelLamboY = 0.0;
 	float dorRotCount = 0.0;
 	int stateDoor = 0;
-
-
 
 	glm::mat4 matrixModelAircraft = glm::mat4(1.0);
 	matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
@@ -2338,6 +2353,7 @@ void applicationLoop() {
 
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
 			(float)screenWidth / (float)screenHeight, 0.01f, 100.0f);
+
 		if (numberCamera == 1) {
 			glm::mat4 view = camera->getViewMatrix();
 
@@ -2677,6 +2693,7 @@ void applicationLoop() {
 			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
 			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
 		}
+
 		shaderMulLighting.setVectorFloat3("spotLights[1].position", glm::value_ptr(glm::vec3(3.0, 8.0, 3.0)));
 		shaderMulLighting.setVectorFloat3("spotLights[1].direction", glm::value_ptr(glm::vec3(0.0, -1.0, 0.0)));
 		shaderMulLighting.setVectorFloat3("spotLights[1].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
@@ -2690,8 +2707,7 @@ void applicationLoop() {
 
 		// Esto es para la luces pointlights(Actuan como si fueran un foco)
 		// Numero de luces a utiliozar de tipo pointLights  = 3
-		shaderMulLighting.setInt("pointLightCount", 22);
-
+		shaderMulLighting.setInt("pointLightCount", 25);//se agrego tres luces mas para la casa de halloween (antes 22)
 
 		shaderMulLighting.setVectorFloat3("pointLights[0].position", glm::value_ptr((glm::vec3(-3.1, 1.8, 7.0))));
 		shaderMulLighting.setVectorFloat3("pointLights[0].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
@@ -2888,6 +2904,33 @@ void applicationLoop() {
 		shaderMulLighting.setFloat("pointLights[21].constant", 1.0);
 		shaderMulLighting.setFloat("pointLights[21].linear", onOffCochera);
 		shaderMulLighting.setFloat("pointLights[21].quadratic", 0.004);
+
+		//luz de la lampara 1, casa halloween
+		shaderMulLighting.setVectorFloat3("pointLights[22].position", glm::value_ptr((glm::vec3(-26.23, 0.854434, 9.32244))));
+		shaderMulLighting.setVectorFloat3("pointLights[22].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
+		shaderMulLighting.setVectorFloat3("pointLights[22].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
+		shaderMulLighting.setVectorFloat3("pointLights[22].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
+		shaderMulLighting.setFloat("pointLights[22].constant", 1.0);
+		shaderMulLighting.setFloat("pointLights[22].linear", onOffLampara1);
+		shaderMulLighting.setFloat("pointLights[22].quadratic", 0.004);
+
+		//luz de la lampara 2, casa halloween
+		shaderMulLighting.setVectorFloat3("pointLights[23].position", glm::value_ptr((glm::vec3(-21.3986, 0.789432, 3.8218))));
+		shaderMulLighting.setVectorFloat3("pointLights[23].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
+		shaderMulLighting.setVectorFloat3("pointLights[23].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
+		shaderMulLighting.setVectorFloat3("pointLights[23].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
+		shaderMulLighting.setFloat("pointLights[23].constant", 1.0);
+		shaderMulLighting.setFloat("pointLights[23].linear", onOffLampara2);
+		shaderMulLighting.setFloat("pointLights[23].quadratic", 0.004);
+
+		//luz de la lampara 3, casa halloween
+		shaderMulLighting.setVectorFloat3("pointLights[24].position", glm::value_ptr((glm::vec3(-26.3791, 0.970396, 3.8465))));
+		shaderMulLighting.setVectorFloat3("pointLights[24].light.ambient", glm::value_ptr(glm::vec3(0.001, 0.001, 0.001)));
+		shaderMulLighting.setVectorFloat3("pointLights[24].light.diffuse", glm::value_ptr(glm::vec3(0.01, 0.01, 0.0)));
+		shaderMulLighting.setVectorFloat3("pointLights[24].light.specular", glm::value_ptr(glm::vec3(0.91, 0.92, 0.85)));
+		shaderMulLighting.setFloat("pointLights[24].constant", 1.0);
+		shaderMulLighting.setFloat("pointLights[24].linear", onOffLampara3);
+		shaderMulLighting.setFloat("pointLights[24].quadratic", 0.004);
 
 		//Esto es oara colocar las esferas de las luces
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
@@ -7452,8 +7495,25 @@ void applicationLoop() {
 		box2.render(glm::scale(modelPasto2, glm::vec3(22.0, 0.01, 22.0)));
 		shaderTexture.setFloat("offsetX", 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+	//********************Render de las camaras que se prenden en la casa de diad de muertos*****************************//
+		glm::mat4 matrixModelLamp1H = glm::mat4(1.0);
+		matrixModelLamp1H = glm::translate(matrixModelLamp1H, glm::vec3(-26.23, 0.854434, 9.32244));
+		modelLampara.render(glm::scale(matrixModelLamp1H, glm::vec3(0.2, 0.2, 0.2)));
+		glActiveTexture(GL_TEXTURE0);
+
+		glm::mat4 matrixModelLamp2H = glm::mat4(1.0);
+		matrixModelLamp2H = glm::translate(matrixModelLamp2H, glm::vec3(-21.3986, 0.789432, 3.8218));
+		modelLampara.render(glm::scale(matrixModelLamp2H, glm::vec3(0.2, 0.2, 0.2)));
+		glActiveTexture(GL_TEXTURE0);
+
+		glm::mat4 matrixModelLamp3H = glm::mat4(1.0);
+		matrixModelLamp3H = glm::translate(matrixModelLamp3H, glm::vec3(-26.3791, 0.970396, 3.8465));
+		modelLampara.render(glm::scale(matrixModelLamp3H, glm::vec3(0.2, 0.2, 0.2)));
+		glActiveTexture(GL_TEXTURE0);
+	//****************************
 		///////////////////////////////////////////////////////////////////////
-	//////////////////////////7FIN CASA MUERTOS////////////////////////////
+	/////////////////////////// FIN CASA MUERTOS ////////////////////////////
 	///////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////
@@ -8940,6 +9000,60 @@ void applicationLoop() {
 				onOffHabitacionArbol = 7;
 				onOffCochera = 7;
 			}
+		}
+
+		//******************** Calculo de la distancia entre los objetos y la camara ***************************************//
+		if (numberCamera == 2) {
+			float distanciaLampara1x = matrixModelLamp1H[3].x - camera_halloween->getPosition().x;
+			float distanciaLampara1y = matrixModelLamp1H[3].y - camera_halloween->getPosition().y;
+			float distanciaLampara1z = matrixModelLamp1H[3].z - camera_halloween->getPosition().z;
+			float sumaDistanciaLampara1 = glm::pow(distanciaLampara1x, 2) + glm::pow(distanciaLampara1y, 2) + glm::pow(distanciaLampara1z, 2);
+			distanciaCamaraHalloweenFoco1 = glm::sqrt(sumaDistanciaLampara1);
+
+			float distanciaLampara2x = matrixModelLamp2H[3].x - camera_halloween->getPosition().x;
+			float distanciaLampara2y = matrixModelLamp2H[3].y - camera_halloween->getPosition().y;
+			float distanciaLampara2z = matrixModelLamp2H[3].z - camera_halloween->getPosition().z;
+			float sumaDistanciaLampara2 = glm::pow(distanciaLampara2x, 2) + glm::pow(distanciaLampara2y, 2) + glm::pow(distanciaLampara2z, 2);
+			distanciaCamaraHalloweenFoco2 = glm::sqrt(sumaDistanciaLampara2);
+
+			float distanciaLampara3x = matrixModelLamp3H[3].x - camera_halloween->getPosition().x;
+			float distanciaLampara3y = matrixModelLamp3H[3].y - camera_halloween->getPosition().y;
+			float distanciaLampara3z = matrixModelLamp3H[3].z - camera_halloween->getPosition().z;
+			float sumaDistanciaLampara3 = glm::pow(distanciaLampara3x, 2) + glm::pow(distanciaLampara3y, 2) + glm::pow(distanciaLampara3z, 2);
+			distanciaCamaraHalloweenFoco3 = glm::sqrt(sumaDistanciaLampara3);
+			
+			//casa de halloween, luces
+			if (distanciaCamaraHalloweenFoco1 < 3.0) {
+				onOffLampara1 = 0.01;
+				onOffLampara2 = 7;
+				onOffLampara3 = 7;
+				std::cout << "Foco 1 prendido" << std::endl;
+			}
+			else if (distanciaCamaraHalloweenFoco2 < 3.0) {
+				onOffLampara1 = 7;
+				onOffLampara2 = 0.01;
+				onOffLampara3 = 7;
+				std::cout << "Foco 2 prendido" << std::endl;
+			}
+			else if (distanciaCamaraHalloweenFoco3 < 3.0) {
+				onOffLampara1 = 7;
+				onOffLampara2 = 7;
+				onOffLampara3 = 0.01;
+				std::cout << "Foco 3 prendido" << std::endl;
+			}
+			else {
+				onOffLampara1 = 7;
+				onOffLampara2 = 7;
+				onOffLampara3 = 7;
+			}
+
+			if (muestraPosicion) {
+				std::cout << "Distancia foco 1 " << distanciaCamaraHalloweenFoco1 << std::endl;
+				std::cout << "Distancia foco 2 " << distanciaCamaraHalloweenFoco2 << std::endl;
+				std::cout << "Distancia foco 3 " << distanciaCamaraHalloweenFoco3 << std::endl;
+				muestraPosicion = false;
+			}
+			
 		}
 
 
