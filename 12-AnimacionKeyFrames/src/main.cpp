@@ -113,7 +113,8 @@ Model modelRock;
 Model tabla;
 Model sofa;
 Model modelCalabaza;
-////
+/////////////////////////
+
 Model modelApple, modelBanana, modelCouch, modelLamp, modelMandarine, modelOrange, modelPM, modelTable, modelChimney, modelVela;
 GLuint textureID1G, textureID2G, textureID7G, textureID8G, textureID9G, textureID20M, textureID20P, textureIDM, textureIDV;
 GLuint textureIDR;
@@ -152,7 +153,7 @@ float cam1posx = 0.0;
 float cam1posy = 0.0;
 float cam1posz = 0.0;
 ////////////////////
-	
+
 int numberCamera = 1;
 float offsetState = 0.0;
 
@@ -260,7 +261,11 @@ float rotDartHead = 0.0, rotDartBody = 0.0, advanceDartBody = 0.0, rotDartLeftAr
 rotDartLeftHand = 0.0, rotDartRightArm = 0.0, rotDartRightHand = 0.0, rotDartLeftLeg = 0.0, rotDartRightLeg = 0.0;
 int modelSelected = 0;
 bool enableCountSelected = true;
+////////////
+float rotsw = 0.0;
+float rotswZ = 0.0;
 
+///////////
 // Variables to animations keyframes
 bool saveFrame = false, availableSave = true;
 std::ofstream myfile;
@@ -537,7 +542,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
 	modelTable2.loadModel("../models/table/table.obj");
 	modelTable2.setShader(&shaderMulLighting);
@@ -605,19 +610,20 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelSheep.loadModel("../models/sheep2/sheep2.obj");
 	modelSheep.setShader(&shaderMulLighting);
 	modelChicken.loadModel("../models/chicken/chicken.obj");
-	modelChicken.setShader(&shaderMulLighting);
+	modelChicken.setShader(&shaderMulLighting);*/
 	snowMan.loadModel("../models/SnowMan/SnowMan.obj");
 	snowMan.setShader(&shaderMulLighting);
 	modelTrineo.loadModel("../models/trineo/trineo.obj");
 	modelTrineo.setShader(&shaderMulLighting);
-	modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
+
+	/*modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
 	modelNocheBuena.setShader(&shaderMulLighting);
 	modelBaston.loadModel("../models/baston/baston1.obj");
 	modelBaston.setShader(&shaderMulLighting);
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
-	modelPinata.setShader(&shaderMulLighting);
+	modelPinata.setShader(&shaderMulLighting);*/
 
 	camera->setPosition(glm::vec3(0.0, 2.8, 25.0));
 	camera->setSensitivity(1);
@@ -626,7 +632,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	camera_halloween->setSensitivity(1);
 
 	camara_nacimiento->setPosition(glm::vec3(2.0, 2.8, 0.0));
-	camara_nacimiento->setFront(glm::vec3(0.0, 0.0, 1.0));
+	//camara_nacimiento->setFront(glm::vec3(0.0, 0.0, 1.0));
 
 
 	camara_ofrenda->setPosition(glm::vec3(-25, 2.3, 9.0));
@@ -1990,6 +1996,7 @@ void destroy() {
 	modelRegalo3.destroy();
 	snowMan.destroy();
 	modelTrineo.destroy();
+
 	modelPinata.destroy();
 	modelPiso.destroy();
 	modelSantaHat.destroy();
@@ -2231,7 +2238,7 @@ bool processInput(bool continueApplication) {
 
 	//camara libre navidad
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-		numberCamera = 1 ;
+		numberCamera = 1;
 	//camara libre halloween
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 		numberCamera = 2;
@@ -2241,7 +2248,7 @@ bool processInput(bool continueApplication) {
 	//camara fija navidad
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 		numberCamera = 3;
-	
+
 	//evento que me permite saber la posicion de la camara, para obtener las posiciones de las luces puntuales de la casa halloween
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && numberCamera == 2) {
 		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
@@ -2321,10 +2328,14 @@ void applicationLoop() {
 	glm::mat4 matrixModelRegalo3 = glm::mat4(1.0);
 	matrixModelRegalo3 = glm::translate(matrixModelRegalo3, glm::vec3(-2.5, 2.6, 4.5));
 
-
+	glm::mat4 matrixModelSnowman = glm::mat4(1.0);
+	matrixModelSnowman = glm::translate(matrixModelSnowman, glm::vec3(-4.5, 5.8, 6.1));
+	matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
+	matrixModelSnowman = glm::scale(matrixModelSnowman, glm::vec3(2.5, 2.5, 2.5));
 
 	int state = 0;
 	int stateheli = 0;
+	int stateSnowman = 0;
 
 	float offsetAircraftAdvance = 0.0;
 	float  offsetLamboAdvance = 0.0;
@@ -2334,6 +2345,8 @@ void applicationLoop() {
 	float offsetHeliAdvance = 0.0;
 
 	float offsetRegalo1 = 0.0;
+
+	float offsetSnowman = 0.0;
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
@@ -7496,7 +7509,7 @@ void applicationLoop() {
 		shaderTexture.setFloat("offsetX", 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-	//********************Render de las camaras que se prenden en la casa de diad de muertos*****************************//
+		//********************Render de las camaras que se prenden en la casa de diad de muertos*****************************//
 		glm::mat4 matrixModelLamp1H = glm::mat4(1.0);
 		matrixModelLamp1H = glm::translate(matrixModelLamp1H, glm::vec3(-26.23, 0.854434, 9.32244));
 		modelLampara.render(glm::scale(matrixModelLamp1H, glm::vec3(0.2, 0.2, 0.2)));
@@ -7511,19 +7524,19 @@ void applicationLoop() {
 		matrixModelLamp3H = glm::translate(matrixModelLamp3H, glm::vec3(-26.3791, 0.970396, 3.8465));
 		modelLampara.render(glm::scale(matrixModelLamp3H, glm::vec3(0.2, 0.2, 0.2)));
 		glActiveTexture(GL_TEXTURE0);
-	//****************************
+		//****************************
+			///////////////////////////////////////////////////////////////////////
+		/////////////////////////// FIN CASA MUERTOS ////////////////////////////
 		///////////////////////////////////////////////////////////////////////
-	/////////////////////////// FIN CASA MUERTOS ////////////////////////////
-	///////////////////////////////////////////////////////////////////////
 
+		//////////////////////////////////////////////////////////////
+		//////////////////////RENDER CASA NAVIDAD ////////////////////////////
+		//////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////
-	//////////////////////RENDER CASA NAVIDAD ////////////////////////////
+	//////////////////////RENDER CASA ////////////////////////////
 	//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////RENDER CASA ////////////////////////////
-//////////////////////////////////////////////////////////////
 
-///////////////////////PLANTA BAJA///////////////////////
+	///////////////////////PLANTA BAJA///////////////////////
 		glBindTexture(GL_TEXTURE_2D, textureID13);
 		glm::mat4 zaguan = glm::mat4(1.0);
 		zaguan = glm::translate(zaguan, glm::vec3(-4.1, 0.0, 5.8));
@@ -8218,10 +8231,7 @@ void applicationLoop() {
 		matrixModelStar = glm::scale(matrixModelStar, glm::vec3(0.15, 0.15, 0.15));
 		modelStar.render(matrixModelStar);
 
-		glm::mat4 matrixModelSnowman = glm::mat4(1.0);
-		matrixModelSnowman = glm::translate(matrixModelSnowman, glm::vec3(-4.5, 5.8, 6.1));
-		matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
-		matrixModelSnowman = glm::scale(matrixModelSnowman, glm::vec3(2.5, 2.5, 2.5));
+
 		snowMan.render(matrixModelSnowman);
 
 		glm::mat4 matrixModelTrineo = glm::mat4(1.0);
@@ -8229,6 +8239,7 @@ void applicationLoop() {
 		matrixModelTrineo = glm::rotate(matrixModelTrineo, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
 		matrixModelTrineo = glm::scale(matrixModelTrineo, glm::vec3(0.8, 0.8, 0.8));
 		modelTrineo.render(matrixModelTrineo);
+
 
 		glm::mat4 matrixModelCorona = glm::mat4(1.0);
 		matrixModelCorona = glm::translate(matrixModelCorona, glm::vec3(-2.5, 0.5, 3.75));
@@ -8614,8 +8625,13 @@ void applicationLoop() {
 			matrixModelCar = glm::translate(matrixModelCar, glm::vec3(0.0, 0.0, 0.1));
 			offsetAircraftAdvance += 0.1;
 			rotWheely -= 0.01;
-			if (rotWheely < 0)
+			rotsw -= 0.02;
+			rotswZ -= 0.02;
+			if (rotWheely < 0) {
 				rotWheely = 0;
+				rotsw = 0;
+				rotswZ = 0;
+			}
 			if (offsetAircraftAdvance > 30.0) {
 				offsetAircraftAdvance = 0.0;
 				state = 1;
@@ -8624,10 +8640,16 @@ void applicationLoop() {
 		case 1:
 			matrixModelCar = glm::translate(matrixModelCar, glm::vec3(0.0, 0.0, 0.01));
 			matrixModelCar = glm::rotate(matrixModelCar, glm::radians(0.05f), glm::vec3(0.0, 1.0, 0.0));
+
 			offsetAircraftRot += 0.05;
 			rotWheely += 0.0001;
-			if (rotWheely < glm::radians(15.0))
+			rotsw += 0.02;
+			rotswZ += 0.02;
+			if (rotWheely < glm::radians(15.0)) {
 				rotWheely = glm::radians(15.0);
+				rotsw = 0.40;
+				rotswZ = 0.40;
+			}
 			if (offsetAircraftRot > 90) {
 				offsetAircraftRot = 0.0;
 				state = 0;
@@ -8764,6 +8786,36 @@ void applicationLoop() {
 			break;
 		}
 
+		///////////////////////////////////////////////////////////////////
+		/////////////////STATE MACHINE SNOWMAN/////////////////////////
+		///////////////////////////////////////////////////////////////////
+		switch (stateSnowman)
+		{
+		case 0:
+			matrixModelSnowman = glm::translate(matrixModelSnowman, glm::vec3(0.0, 0.001, 0.0));
+			matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(2.0f), glm::vec3(0, 1, 0));
+
+			offsetSnowman += 0.1;
+
+			if (offsetSnowman > 2.0) {
+				offsetSnowman = 0.0;
+				stateSnowman = 1;
+			}
+			break;
+		case 1:
+			matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(-2.0f), glm::vec3(0, 1, 0));
+			matrixModelSnowman = glm::translate(matrixModelSnowman, glm::vec3(0.0, -0.001, 0.0));
+			offsetSnowman += 0.1;
+
+			if (offsetSnowman > 2.0) {
+				offsetSnowman = 0.0;
+				stateSnowman = 0;
+			}
+			break;
+		default:
+			break;
+		}
+
 		// Dart lego
 		// Se deshabilita el cull faces IMPORTANTE para la capa
 		glDisable(GL_CULL_FACE);
@@ -8878,9 +8930,9 @@ void applicationLoop() {
 		//////////////////////////////////////////////////////////////////////
 		////////////Condicionales para encender luces casa navidad/////////////////////////
 		//////////////////////////////////////////////////////////////////////
-		
+
 		//sala
-		if (numberCamera == 1) {		
+		if (numberCamera == 1) {
 			if (camera_is_in(-2.3, 4.5, -1.5, 1.8, 0.0, 5.9)) {
 				onOffSala = 0.01;
 				onOffComedor = 7;
@@ -8893,7 +8945,7 @@ void applicationLoop() {
 				onOffCochera = 7;
 			}
 			//recamara1
-			else if (camera_is_in(4.5, 10.4, -1.5, 1.8, 2.0, 5.9)){
+			else if (camera_is_in(4.5, 10.4, -1.5, 1.8, 2.0, 5.9)) {
 				onOffSala = 7;
 				onOffComedor = 7;
 				onOffCocina = 7;
@@ -8905,7 +8957,7 @@ void applicationLoop() {
 				onOffCochera = 7;
 			}
 			//baño
-			else if (camera_is_in(-2.3, 0.4, -1.5, 1.8, -6.0, 0.0)){
+			else if (camera_is_in(-2.3, 0.4, -1.5, 1.8, -6.0, 0.0)) {
 				onOffSala = 7;
 				onOffComedor = 7;
 				onOffCocina = 7;
@@ -9021,7 +9073,7 @@ void applicationLoop() {
 			float distanciaLampara3z = matrixModelLamp3H[3].z - camera_halloween->getPosition().z;
 			float sumaDistanciaLampara3 = glm::pow(distanciaLampara3x, 2) + glm::pow(distanciaLampara3y, 2) + glm::pow(distanciaLampara3z, 2);
 			distanciaCamaraHalloweenFoco3 = glm::sqrt(sumaDistanciaLampara3);
-			
+
 			//casa de halloween, luces
 			if (distanciaCamaraHalloweenFoco1 < 3.0) {
 				onOffLampara1 = 0.01;
@@ -9053,7 +9105,7 @@ void applicationLoop() {
 				std::cout << "Distancia foco 3 " << distanciaCamaraHalloweenFoco3 << std::endl;
 				muestraPosicion = false;
 			}
-			
+
 		}
 
 
