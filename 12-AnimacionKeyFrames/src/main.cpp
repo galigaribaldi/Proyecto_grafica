@@ -38,6 +38,7 @@
 #define NUM_BUFFERS 2
 #define NUM_SOURCES 2
 #define NUM_ENVRIONMENTS 1
+#define PI 3.14159265
 
 // Config OpenAL
 ALfloat listenerPos[] = { 0.0, 0.0, 0.0 };
@@ -156,6 +157,10 @@ float cam1posz = 0.0;
 int numberCamera = 1;
 float offsetState = 0.0;
 
+int ghostState = 0;
+float yGhost;
+float xGhost;
+
 GLuint skyboxTextureID;
 // Dart lego
 Model modelDartLegoBody;
@@ -233,6 +238,8 @@ Model modelMuebleTV;
 Model modelTV;
 Model modelCloset;
 
+Model modelGhost;
+Model modelEyeCandle;
 
 GLenum types[6] = {
 GL_TEXTURE_CUBE_MAP_POSITIVE_X,
@@ -437,7 +444,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 	boxWall.init();
 	boxWall.setShader(&shaderMulLighting);
-
+	/*
 	modelRock.loadModel("../models/nubes/nube.obj");
 	modelRock.setShader(&shaderMulLighting);
 
@@ -618,6 +625,12 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
 	modelPinata.setShader(&shaderMulLighting);
+	*/
+	modelGhost.loadModel("../models/Ghost/SheetGhost.obj");
+	modelGhost.setShader(&shaderMulLighting);
+
+	modelEyeCandle.loadModel("../models/eye/eye.obj");
+	modelEyeCandle.setShader(&shaderMulLighting);
 
 	camera->setPosition(glm::vec3(0.0, 2.8, 25.0));
 	camera->setSensitivity(1);
@@ -2018,6 +2031,9 @@ void destroy() {
 	modelDartLegoRightHand.destroy();
 	modelDartLegoLeftLeg.destroy();
 	modelDartLegoRightLeg.destroy();
+
+	modelGhost.destroy();
+	modelEyeCandle.destroy();
 }
 
 void reshapeCallback(GLFWwindow* Window, int widthRes, int heightRes) {
@@ -2320,6 +2336,11 @@ void applicationLoop() {
 
 	glm::mat4 matrixModelRegalo3 = glm::mat4(1.0);
 	matrixModelRegalo3 = glm::translate(matrixModelRegalo3, glm::vec3(-2.5, 2.6, 4.5));
+
+
+	glm::mat4 matrixModelGhost = glm::mat4(1.0);
+	matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(-28, 2.0, 3.2));
+
 
 
 
@@ -6090,6 +6111,10 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		///
+		//modelcandle
+		glm::mat4 matrixModelEyeCandle = glm::mat4(1.0);
+		matrixModelEyeCandle = glm::translate(matrixModelEyeCandle, glm::vec3(6.95 - 33, 1.6, 4.0));
+		modelEyeCandle.render(matrixModelEyeCandle);
 				////Modelo apple
 		glm::mat4 matrixModelApple13 = glm::mat4(1.0);
 		matrixModelApple13 = glm::translate(matrixModelApple13, glm::vec3(5.2 - 30, 1.63, 3.7));
@@ -6172,6 +6197,7 @@ void applicationLoop() {
 		//matrixModelVela = glm::translate(matrixModelVela, glm::vec3(5.0, 3.6, 6.5));
 		//modelVela.render(glm::scale(matrixModelVela, glm::vec3(0.070, 0.07, 0.07)));
 
+		modelGhost.render(matrixModelGhost);
 
 		/*											Decoracion								*/
 		////Modelo Table
@@ -8758,6 +8784,45 @@ void applicationLoop() {
 			if (offsetRegalo1 > 1.0) {
 				offsetRegalo1 = 0.0;
 				state = 0;
+			}
+			break;
+		default:
+			break;
+		}
+
+		///////////////////////////////////////////////////////////////////
+		/////////////////STATE MACHINE GHOST/////////////////////////
+		///////////////////////////////////////////////////////////////////
+		switch (ghostState)
+		{
+		case 0:
+			yGhost = sin(xGhost * PI / 180) * 2;
+			
+			matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(0.05, 0.0, 0.0));
+			if (yGhost < 0)
+				matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(0.0, 0.011, 0.0));
+			if (yGhost > 0)
+				matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(0.0, -0.011, 0.0));
+		
+			xGhost += 10;
+
+			if (xGhost > 720) {
+				ghostState = 1;
+			}
+			break;
+		case 1:
+			yGhost = sin(xGhost * PI / 180) * 2;
+			matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(-0.05, 0.0, 0.0));
+			if(yGhost > 0)
+				matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(0.0, 0.011, 0.0));
+		    if(yGhost < 0)
+				matrixModelGhost = glm::translate(matrixModelGhost, glm::vec3(0.0, -0.011, 0.0));
+
+
+			xGhost -= 10;
+
+			if (xGhost < 0) {
+				ghostState = 0;
 			}
 			break;
 		default:
