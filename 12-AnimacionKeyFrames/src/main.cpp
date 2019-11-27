@@ -628,10 +628,10 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelBaston.loadModel("../models/baston/baston1.obj");
 	modelBaston.setShader(&shaderMulLighting);
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
-	modelCoronaDecoracion.setShader(&shaderMulLighting);
+	modelCoronaDecoracion.setShader(&shaderMulLighting);*/
 	modelPinata.loadModel("../models/pinata/pinata.obj");
 	modelPinata.setShader(&shaderMulLighting);
-	*/
+	
 	modelGhost.loadModel("../models/Ghost/SheetGhost.obj");
 	modelGhost.setShader(&shaderMulLighting);
 
@@ -2356,10 +2356,19 @@ void applicationLoop() {
 	matrixModelEyeCandle = glm::translate(matrixModelEyeCandle, glm::vec3(6.95 - 29.5, 1.9, 5.5));
 	matrixModelEyeCandle = glm::scale(matrixModelEyeCandle, glm::vec3(0.3, 0.3, 0.3));
 
+	glm::mat4 matrixModelPinata1 = glm::mat4(1.0);
+	matrixModelPinata1 = glm::translate(matrixModelPinata1, glm::vec3(-4.5, 1.0, 3.75));
+	matrixModelPinata1 = glm::scale(matrixModelPinata1, glm::vec3(0.15, 0.15, 0.15));
+
+	glm::mat4 matrixModelPinata2 = glm::mat4(1.0);
+	matrixModelPinata2 = glm::translate(matrixModelPinata2, glm::vec3(-4.5, 1.0, 0.75));
+	matrixModelPinata2 = glm::scale(matrixModelPinata2, glm::vec3(0.15, 0.15, 0.15));
+
 	int state = 0;
 	int stateheli = 0;
 	int stateSnowman = 0;
 	int stateEyeCandle = 0;
+	int statePinatas = 0;
 
 	float offsetAircraftAdvance = 0.0;
 	float  offsetLamboAdvance = 0.0;
@@ -2372,6 +2381,7 @@ void applicationLoop() {
 
 	float offsetSnowman = 0.0;
 	float offsetEyeCandle= 0.0;
+	float offsetPinatas= 0.0;
 
 
 	while (psi) {
@@ -8326,13 +8336,11 @@ void applicationLoop() {
 		///////Pinatas//////////
 		////////////////////////
 
-		glm::mat4 matrixModelPinata1 = glm::mat4(1.0);
-		matrixModelPinata1 = glm::translate(matrixModelPinata1, glm::vec3(-4.5, 1.0, 3.75));
-		modelPinata.render(glm::scale(matrixModelPinata1, glm::vec3(0.15, 0.15, 0.15)));
 
-		glm::mat4 matrixModelPinata2 = glm::mat4(1.0);
-		matrixModelPinata2 = glm::translate(matrixModelPinata2, glm::vec3(-4.5, 1.0, 0.75));
-		modelPinata.render(glm::scale(matrixModelPinata2, glm::vec3(0.15, 0.15, 0.15)));
+		modelPinata.render(matrixModelPinata1);
+
+
+		modelPinata.render(matrixModelPinata2);
 
 		///////////////////////
 		/////Esferas///////////
@@ -8817,6 +8825,36 @@ void applicationLoop() {
 		}
 
 		///////////////////////////////////////////////////////////////////
+		/////////////////STATE MACHINE PINATAS/////////////////////////
+		///////////////////////////////////////////////////////////////////
+		switch (statePinatas)
+		{
+		case 0:
+			matrixModelPinata1 = glm::rotate(matrixModelPinata1, glm::radians(2.0f), glm::vec3(0, 0, 1));
+			matrixModelPinata2 = glm::rotate(matrixModelPinata2, glm::radians(-2.0f), glm::vec3(0, 0, 1));
+
+
+			offsetPinatas += 0.1;
+
+			if (offsetPinatas > 2.0) {
+				offsetPinatas = 0.0;
+				statePinatas = 1;
+			}
+			break;
+		case 1:
+			matrixModelPinata1 = glm::rotate(matrixModelPinata1, glm::radians(-2.0f), glm::vec3(0, 0, 1));
+			matrixModelPinata2 = glm::rotate(matrixModelPinata2, glm::radians(2.0f), glm::vec3(0, 0, 1));			
+			offsetPinatas += 0.1;
+
+			if (offsetPinatas > 2.0) {
+				offsetPinatas = 0.0;
+				statePinatas = 0;
+			}
+		default:
+			break;
+		}
+		
+		///////////////////////////////////////////////////////////////////
 		/////////////////STATE MACHINE SNOWMAN/////////////////////////
 		///////////////////////////////////////////////////////////////////
 		switch (stateSnowman)
@@ -8908,7 +8946,7 @@ void applicationLoop() {
 			}
 		default:
 			break;
-		}
+		}	
 
 		// Dart lego
 		// Se deshabilita el cull faces IMPORTANTE para la capa
