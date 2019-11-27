@@ -8846,7 +8846,7 @@ void applicationLoop() {
 			matrixModelPinata2 = glm::rotate(matrixModelPinata2, glm::radians(2.0f), glm::vec3(0, 0, 1));			
 			offsetPinatas += 0.1;
 
-			if (offsetPinatas > 4.0) {
+			if (offsetPinatas > 2.0) {
 				offsetPinatas = 0.0;
 				statePinatas = 0;
 			}
@@ -8872,7 +8872,7 @@ void applicationLoop() {
 			break;
 		case 1:
 			matrixModelSnowman = glm::translate(matrixModelSnowman, glm::vec3(0.0, -0.001, 0.0));
-			matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(-4.0f), glm::vec3(0, 1, 0));
+			matrixModelSnowman = glm::rotate(matrixModelSnowman, glm::radians(-2.0f), glm::vec3(0, 1, 0));
 			offsetSnowman += 0.1;
 
 			if (offsetSnowman > 2.0) {
