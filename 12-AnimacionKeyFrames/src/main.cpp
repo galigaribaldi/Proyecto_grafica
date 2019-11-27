@@ -91,6 +91,17 @@ std::shared_ptr<FirstPersonCamera> camera_halloween(new FirstPersonCamera());
 std::shared_ptr<FirstPersonCamera> camara_ofrenda(new FirstPersonCamera());
 std::shared_ptr<FirstPersonCamera> camara_nacimiento(new FirstPersonCamera());
 
+//camaras para los recorridos
+std::shared_ptr<FirstPersonCamera> camaraOfrendaRecorrido(new FirstPersonCamera());
+std::shared_ptr<FirstPersonCamera> camaraNavidadRecorrido(new FirstPersonCamera());
+//glm::vec3 frontInicialCamaraHalloween;
+//variables opcionales para el diseño de los recorridos
+int pasos = 0;
+bool cambioEstado = false;
+float posicionXCamaraRecorrido, posicionYCamaraRecorrido, posicionZCamaraRecorrido;
+float posicionXCamaraRecorrido1, posicionYCamaraRecorrido1, posicionZCamaraRecorrido1;//estas corresponde al recorrido de navidad
+//***********************************************************************************
+
 Sphere sphere1(20, 20);
 Sphere sphere2(20, 20);
 Sphere sphere3(20, 20);
@@ -649,6 +660,11 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 
 	camara_ofrenda->setPosition(glm::vec3(-25, 2.3, 9.0));
+
+	//posicion inicial de las camaras
+	camaraOfrendaRecorrido->setPosition(glm::vec3(-25.4314, 0.291279, 14.5278));
+	camaraNavidadRecorrido->setPosition(glm::vec3(-4.05381, 0.391297, 10.173));
+	//frontInicialCamaraHalloween = camaraOfrendaRecorrido->getFront();
 
 
 	// Descomentar
@@ -2265,12 +2281,73 @@ bool processInput(bool continueApplication) {
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 		numberCamera = 3;
 
-	//evento que me permite saber la posicion de la camara, para obtener las posiciones de las luces puntuales de la casa halloween
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && numberCamera == 2) {
-		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
-		muestraPosicion = true;
+	//Evento que selecciona la camara de recorrido de la casa de halloween(tecal 5 + tecla 't')
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+		numberCamera = 5;
+	//Evento que selecciona la camara de recorrido de la casa de navidad (tecla 6 + tecla 't')
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+		numberCamera = 6;
+	
+	//evento que me permite saber la posicion de la camara, para obtener datos de los eventos
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && numberCamera == 6) {
+		//std::cout << "(" << camera->getPosition().x << " , " << camera->getPosition().y << " , " << camera->getPosition().z << " )" << std::endl;
+		//muestraPosicion = true;
+		std::cout << "pasos " << pasos <<std::endl;
+		cambioEstado = true;
 	}
 
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && numberCamera == 6) {
+		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
+		//muestraPosicion = true;
+		//std::cout
+		if (cambioEstado) {
+			pasos = 0;
+			cambioEstado = false;
+		}
+		camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+		pasos += 1;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && numberCamera == 6) {
+		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
+		//muestraPosicion = true;
+		//std::cout
+		if (cambioEstado) {
+			pasos = 0;
+			cambioEstado = false;
+		}
+		camaraNavidadRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+		pasos += 1;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && numberCamera == 6) {
+		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
+		//muestraPosicion = true;
+		//std::cout
+		if (cambioEstado) {
+			pasos = 0;
+			cambioEstado = false;
+		}
+		camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+		pasos += 1;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && numberCamera == 6) {
+		//std::cout << "(" << camera_halloween->getPosition().x << " , " << camera_halloween->getPosition().y << " , " << camera_halloween->getPosition().z << " )" << std::endl;
+		//muestraPosicion = true;
+		//std::cout
+		if (cambioEstado) {
+			pasos = 0;
+			posicionXCamaraRecorrido = camaraNavidadRecorrido->getPosition().x;
+			posicionYCamaraRecorrido = camaraNavidadRecorrido->getPosition().y;
+			posicionZCamaraRecorrido = camaraNavidadRecorrido->getPosition().z;
+			cambioEstado = false;
+		}
+		posicionYCamaraRecorrido += 0.1;
+		camaraNavidadRecorrido->setPosition(glm::vec3(posicionXCamaraRecorrido, posicionYCamaraRecorrido, posicionZCamaraRecorrido));
+		pasos += 1;
+	}
+	//***************************************************************************
 
 	glfwPollEvents();
 	return continueApplication;
@@ -2278,9 +2355,17 @@ bool processInput(bool continueApplication) {
 
 bool camera_is_in(float x1, float x2, float y1, float y2, float z1, float z2) {
 	float x, y, z;
-	x = camera->getPosition().x;
-	y = camera->getPosition().y;
-	z = camera->getPosition().z;
+	if (numberCamera == 1) {
+		x = camera->getPosition().x;
+		y = camera->getPosition().y;
+		z = camera->getPosition().z;
+	}
+	else if (numberCamera == 6) {
+		x = camaraNavidadRecorrido->getPosition().x;
+		y = camaraNavidadRecorrido->getPosition().y;
+		z = camaraNavidadRecorrido->getPosition().z;
+	}
+	
 	return x > x1 and x < x2 and y > y1 and y < y2 and z > z1 and z < z2;
 
 }
@@ -2303,6 +2388,15 @@ void applicationLoop() {
 
 	//*********** Varibles para calcular distancias entre objetos y la camara ***************************************************//
 	float distanciaCamaraHalloweenFoco1 = 4.0, distanciaCamaraHalloweenFoco2 = 4.0, distanciaCamaraHalloweenFoco3 = 4.0;
+
+	//**********variables para la maquina de estados de las camaras***********************************************************
+	int stateCamaraHalloween = 0;
+	int avanzaCamaraHalloween = 0;
+	int giraCamaraHalloween = 0;
+	//float posicionActualCamaraHalloween = 0.0;
+	int stateCamaraNavidad = 0;
+	int avanzaCamaraNavidad = 0;
+	int giraCamaraNavidad = 0;
 
 	//////////////////aqui empieza lo mio////////////
 
@@ -2733,6 +2827,178 @@ void applicationLoop() {
 			shaderMulLighting.setInt("spotLightCount", 2);
 			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camara_ofrenda->getPosition()));
 			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camara_ofrenda->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
+
+		//cambio de camara, camara de recorrido de la ofrenda
+		if (numberCamera == 5) {
+			glm::mat4 view = camaraOfrendaRecorrido->getViewMatrix();
+
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camaraOfrendaRecorrido->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camaraOfrendaRecorrido->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camaraOfrendaRecorrido->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camaraOfrendaRecorrido->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camaraOfrendaRecorrido->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camaraOfrendaRecorrido->getFront()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+			shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5)));
+			shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0)));
+			shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			shaderMulLighting.setFloat("spotLights[0].linear", 0.1);
+			shaderMulLighting.setFloat("spotLights[0].quadratic", 0.001);
+		}
+
+		//cambio de camara, camara de recorrido de navidad
+		if (numberCamera == 6) {
+			glm::mat4 view = camaraNavidadRecorrido->getViewMatrix();
+
+			// Settea la matriz de vista y projection al shader con solo color
+			shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
+			shader.setMatrix4("view", 1, false, glm::value_ptr(view));
+			// Settea la matriz de vista y projection al shader con solo textura
+			shaderTexture.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTexture.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion solo color
+			shaderColorLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con textura
+			shaderTextureLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderTextureLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con iluminacion con material
+			shaderMaterialLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMaterialLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Settea la matriz de vista y projection al shader con skybox
+			shaderSkybox.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderSkybox.setMatrix4("view", 1, false,
+				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			// Settea la matriz de vista y projection al shader con multiples luces
+			shaderMulLighting.setMatrix4("projection", 1, false,
+				glm::value_ptr(projection));
+			shaderMulLighting.setMatrix4("view", 1, false,
+				glm::value_ptr(view));
+
+			// Propiedades de la luz para objetos con color
+			shaderColorLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camaraNavidadRecorrido->getPosition()));
+			shaderColorLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderColorLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderTextureLighting.setVectorFloat3("viewPos",
+				glm::value_ptr(camaraNavidadRecorrido->getPosition()));
+			shaderTextureLighting.setVectorFloat3("light.ambient",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.diffuse",
+				glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderTextureLighting.setVectorFloat3("light.specular",
+				glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+
+			// Propiedades de la luz para objetos con textura
+			shaderMaterialLighting.setVectorFloat3("viewPos", glm::value_ptr(camaraNavidadRecorrido->getPosition()));
+			shaderMaterialLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMaterialLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
+			shaderMaterialLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
+
+			// Propiedades de la luz para objetos con multiples luces
+			shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camaraNavidadRecorrido->getPosition()));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
+			shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.7, 0.7, 0.7)));
+			shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+			// Esto es para la luz spotlight
+			shaderMulLighting.setInt("spotLightCount", 2);
+			shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(camaraNavidadRecorrido->getPosition()));
+			shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(camaraNavidadRecorrido->getFront()));
 			shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.01, 0.01, 0.01)));
 			shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
 			shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
@@ -8824,6 +9090,7 @@ void applicationLoop() {
 			break;
 		}
 
+
 		///////////////////////////////////////////////////////////////////
 		/////////////////STATE MACHINE PINATAS/////////////////////////
 		///////////////////////////////////////////////////////////////////
@@ -8948,6 +9215,335 @@ void applicationLoop() {
 			break;
 		}	
 
+		
+		//maquina de estados del recorrido de la camara de halloween
+		if (numberCamera == 5) {
+			posicionXCamaraRecorrido = camaraOfrendaRecorrido->getPosition().x;
+			posicionYCamaraRecorrido = camaraOfrendaRecorrido->getPosition().y;
+			posicionZCamaraRecorrido = camaraOfrendaRecorrido->getPosition().z;
+			switch (stateCamaraHalloween) {
+			case 0:
+				if (avanzaCamaraHalloween < 25) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 1;
+				}
+				break;
+			case 1:
+				if (giraCamaraHalloween < 131) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 2;
+				}
+				break;
+			case 2:
+				if (giraCamaraHalloween < 238) {
+					camaraOfrendaRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 3;
+				}
+				break;
+			case 3:
+				if (avanzaCamaraHalloween < 17) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 4;
+				}
+				break;
+			case 4:
+				if (giraCamaraHalloween < 105) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 5;
+				}
+				break;
+			case 5:
+				if (avanzaCamaraHalloween < 35) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 6;
+				}
+				break;
+			case 6:
+				if (giraCamaraHalloween < 91) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 7;
+				}
+				break;
+			case 7:
+				if (avanzaCamaraHalloween < 8) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 8;
+				}
+				break;
+			case 8:
+				if (giraCamaraHalloween < 79) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 9;
+				}
+				break;
+			case 9:
+				if (avanzaCamaraHalloween < 11) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 10;
+				}
+				break;
+			case 10:
+				if (giraCamaraHalloween < 460) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 11;
+				}
+				break;
+			case 11:
+				if (avanzaCamaraHalloween < 22) {
+					camaraOfrendaRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 12;
+				}
+				break;
+			case 12:
+				if (giraCamaraHalloween < 113) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 13;
+				}
+				break;
+			case 13:
+				if (avanzaCamaraHalloween < 19) {
+					camaraOfrendaRecorrido->setPosition(glm::vec3(posicionXCamaraRecorrido, posicionYCamaraRecorrido + 0.1, posicionZCamaraRecorrido));
+					avanzaCamaraHalloween += 1;
+				}
+				else {
+					avanzaCamaraHalloween = 0;
+					stateCamaraHalloween = 14;
+				}
+				break;
+			case 14:
+				if (giraCamaraHalloween < 615) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 15;
+				}
+				break;
+			case 15:
+				camaraOfrendaRecorrido->setPosition(glm::vec3(-25.4314, 0.291279, 14.5278));
+				//camaraOfrendaRecorrido->setFront(frontInicialCamaraHalloween);
+				//stateCamaraHalloween = 0;
+				
+				if (giraCamaraHalloween < 220) {
+					camaraOfrendaRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraHalloween += 1;
+				}
+				else {
+					giraCamaraHalloween = 0;
+					stateCamaraHalloween = 0;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		
+		//maquina de estados del recorrido de la camara de navidad
+		if (numberCamera == 6) {
+			posicionXCamaraRecorrido1 = camaraNavidadRecorrido->getPosition().x;
+			posicionYCamaraRecorrido1 = camaraNavidadRecorrido->getPosition().y;
+			posicionZCamaraRecorrido1 = camaraNavidadRecorrido->getPosition().z;
+			switch (stateCamaraNavidad) {
+			case 0:
+				if (avanzaCamaraNavidad < 31) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 1;
+				}
+				break;
+			case 1:
+				if (giraCamaraNavidad < 98) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 2;
+				}
+				break;
+			case 2:
+				if (avanzaCamaraNavidad < 45) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 3;
+				}
+				break;
+			case 3:
+				if (giraCamaraNavidad < 250) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 4;
+				}
+				break;
+			case 4:
+				if (avanzaCamaraNavidad < 5) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 5;
+				}
+				break;
+			case 5:
+				if (avanzaCamaraNavidad < 28) {
+					camaraNavidadRecorrido->setPosition(glm::vec3(posicionXCamaraRecorrido1, posicionYCamaraRecorrido1 + 0.1, posicionZCamaraRecorrido1));
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 6;
+				}
+				break;
+			case 6:
+				if (giraCamaraNavidad < 674) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 7;
+				}
+				break;
+			case 7:
+				if (avanzaCamaraNavidad < 16) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 8;
+				}
+				break;
+			case 8:
+				if (giraCamaraNavidad < 88) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 9;
+				}
+				break;
+			case 9:
+				if (avanzaCamaraNavidad < 26) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 10;
+				}
+				break;
+			case 10:
+				if (giraCamaraNavidad < 281) {
+					camaraNavidadRecorrido->mouseMoveCamera(-glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 11;
+				}
+				break;
+			case 11:
+				if (avanzaCamaraNavidad < 27) {
+					camaraNavidadRecorrido->moveFrontCamera(true, 0.05);
+					avanzaCamaraNavidad += 1;
+				}
+				else {
+					avanzaCamaraNavidad = 0;
+					stateCamaraNavidad = 12;
+				}
+				break;
+			case 12:
+				if (giraCamaraNavidad < 228) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 13;
+				}
+				break;
+			case 13:
+				camaraNavidadRecorrido->setPosition(glm::vec3(-4.05381, 0.391297, 10.173));
+				if (giraCamaraNavidad < 220) {
+					camaraNavidadRecorrido->mouseMoveCamera(glm::radians(-1.0f), 0.0, 1.0);
+					giraCamaraNavidad += 1;
+				}
+				else {
+					giraCamaraNavidad = 0;
+					stateCamaraNavidad = 0;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		//*********************************************************
+		
 		// Dart lego
 		// Se deshabilita el cull faces IMPORTANTE para la capa
 		glDisable(GL_CULL_FACE);
@@ -9064,7 +9660,8 @@ void applicationLoop() {
 		//////////////////////////////////////////////////////////////////////
 
 		//sala
-		if (numberCamera == 1) {
+		if (numberCamera == 1 || numberCamera == 6) {		
+
 			if (camera_is_in(-2.3, 4.5, -1.5, 1.8, 0.0, 5.9)) {
 				onOffSala = 0.01;
 				onOffComedor = 7;
@@ -9187,57 +9784,90 @@ void applicationLoop() {
 		}
 
 		//******************** Calculo de la distancia entre los objetos y la camara ***************************************//
-		if (numberCamera == 2) {
-			float distanciaLampara1x = matrixModelLamp1H[3].x - camera_halloween->getPosition().x;
-			float distanciaLampara1y = matrixModelLamp1H[3].y - camera_halloween->getPosition().y;
-			float distanciaLampara1z = matrixModelLamp1H[3].z - camera_halloween->getPosition().z;
-			float sumaDistanciaLampara1 = glm::pow(distanciaLampara1x, 2) + glm::pow(distanciaLampara1y, 2) + glm::pow(distanciaLampara1z, 2);
-			distanciaCamaraHalloweenFoco1 = glm::sqrt(sumaDistanciaLampara1);
+		if (numberCamera == 2 || numberCamera == 5) {
+			if (numberCamera == 2) {
+				float distanciaLampara1x = matrixModelLamp1H[3].x - camera_halloween->getPosition().x;
+				float distanciaLampara1y = matrixModelLamp1H[3].y - camera_halloween->getPosition().y;
+				float distanciaLampara1z = matrixModelLamp1H[3].z - camera_halloween->getPosition().z;
+				float sumaDistanciaLampara1 = glm::pow(distanciaLampara1x, 2) + glm::pow(distanciaLampara1y, 2) + glm::pow(distanciaLampara1z, 2);
+				distanciaCamaraHalloweenFoco1 = glm::sqrt(sumaDistanciaLampara1);
 
-			float distanciaLampara2x = matrixModelLamp2H[3].x - camera_halloween->getPosition().x;
-			float distanciaLampara2y = matrixModelLamp2H[3].y - camera_halloween->getPosition().y;
-			float distanciaLampara2z = matrixModelLamp2H[3].z - camera_halloween->getPosition().z;
-			float sumaDistanciaLampara2 = glm::pow(distanciaLampara2x, 2) + glm::pow(distanciaLampara2y, 2) + glm::pow(distanciaLampara2z, 2);
-			distanciaCamaraHalloweenFoco2 = glm::sqrt(sumaDistanciaLampara2);
+				float distanciaLampara2x = matrixModelLamp2H[3].x - camera_halloween->getPosition().x;
+				float distanciaLampara2y = matrixModelLamp2H[3].y - camera_halloween->getPosition().y;
+				float distanciaLampara2z = matrixModelLamp2H[3].z - camera_halloween->getPosition().z;
+				float sumaDistanciaLampara2 = glm::pow(distanciaLampara2x, 2) + glm::pow(distanciaLampara2y, 2) + glm::pow(distanciaLampara2z, 2);
+				distanciaCamaraHalloweenFoco2 = glm::sqrt(sumaDistanciaLampara2);
 
-			float distanciaLampara3x = matrixModelLamp3H[3].x - camera_halloween->getPosition().x;
-			float distanciaLampara3y = matrixModelLamp3H[3].y - camera_halloween->getPosition().y;
-			float distanciaLampara3z = matrixModelLamp3H[3].z - camera_halloween->getPosition().z;
-			float sumaDistanciaLampara3 = glm::pow(distanciaLampara3x, 2) + glm::pow(distanciaLampara3y, 2) + glm::pow(distanciaLampara3z, 2);
-			distanciaCamaraHalloweenFoco3 = glm::sqrt(sumaDistanciaLampara3);
+				float distanciaLampara3x = matrixModelLamp3H[3].x - camera_halloween->getPosition().x;
+				float distanciaLampara3y = matrixModelLamp3H[3].y - camera_halloween->getPosition().y;
+				float distanciaLampara3z = matrixModelLamp3H[3].z - camera_halloween->getPosition().z;
+				float sumaDistanciaLampara3 = glm::pow(distanciaLampara3x, 2) + glm::pow(distanciaLampara3y, 2) + glm::pow(distanciaLampara3z, 2);
+				distanciaCamaraHalloweenFoco3 = glm::sqrt(sumaDistanciaLampara3);
 
-			//casa de halloween, luces
-			if (distanciaCamaraHalloweenFoco1 < 3.0) {
-				onOffLampara1 = 0.01;
-				onOffLampara2 = 7;
-				onOffLampara3 = 7;
-				std::cout << "Foco 1 prendido" << std::endl;
-			}
-			else if (distanciaCamaraHalloweenFoco2 < 3.0) {
-				onOffLampara1 = 7;
-				onOffLampara2 = 0.01;
-				onOffLampara3 = 7;
-				std::cout << "Foco 2 prendido" << std::endl;
-			}
-			else if (distanciaCamaraHalloweenFoco3 < 3.0) {
-				onOffLampara1 = 7;
-				onOffLampara2 = 7;
-				onOffLampara3 = 0.01;
-				std::cout << "Foco 3 prendido" << std::endl;
+				//casa de halloween, luces
+				if (distanciaCamaraHalloweenFoco1 < 3.0) {
+					onOffLampara1 = 0.01;
+					onOffLampara2 = 7;
+					onOffLampara3 = 7;
+				}
+				else if (distanciaCamaraHalloweenFoco2 < 3.0) {
+					onOffLampara1 = 7;
+					onOffLampara2 = 0.01;
+					onOffLampara3 = 7;
+				}
+				else if (distanciaCamaraHalloweenFoco3 < 3.0) {
+					onOffLampara1 = 7;
+					onOffLampara2 = 7;
+					onOffLampara3 = 0.01;
+				}
+				else {
+					onOffLampara1 = 7;
+					onOffLampara2 = 7;
+					onOffLampara3 = 7;
+				}
 			}
 			else {
-				onOffLampara1 = 7;
-				onOffLampara2 = 7;
-				onOffLampara3 = 7;
-			}
+				float distanciaLampara1x = matrixModelLamp1H[3].x - camaraOfrendaRecorrido->getPosition().x;
+				float distanciaLampara1y = matrixModelLamp1H[3].y - camaraOfrendaRecorrido->getPosition().y;
+				float distanciaLampara1z = matrixModelLamp1H[3].z - camaraOfrendaRecorrido->getPosition().z;
+				float sumaDistanciaLampara1 = glm::pow(distanciaLampara1x, 2) + glm::pow(distanciaLampara1y, 2) + glm::pow(distanciaLampara1z, 2);
+				distanciaCamaraHalloweenFoco1 = glm::sqrt(sumaDistanciaLampara1);
 
-			if (muestraPosicion) {
-				std::cout << "Distancia foco 1 " << distanciaCamaraHalloweenFoco1 << std::endl;
-				std::cout << "Distancia foco 2 " << distanciaCamaraHalloweenFoco2 << std::endl;
-				std::cout << "Distancia foco 3 " << distanciaCamaraHalloweenFoco3 << std::endl;
-				muestraPosicion = false;
-			}
+				float distanciaLampara2x = matrixModelLamp2H[3].x - camaraOfrendaRecorrido->getPosition().x;
+				float distanciaLampara2y = matrixModelLamp2H[3].y - camaraOfrendaRecorrido->getPosition().y;
+				float distanciaLampara2z = matrixModelLamp2H[3].z - camaraOfrendaRecorrido->getPosition().z;
+				float sumaDistanciaLampara2 = glm::pow(distanciaLampara2x, 2) + glm::pow(distanciaLampara2y, 2) + glm::pow(distanciaLampara2z, 2);
+				distanciaCamaraHalloweenFoco2 = glm::sqrt(sumaDistanciaLampara2);
 
+				float distanciaLampara3x = matrixModelLamp3H[3].x - camaraOfrendaRecorrido->getPosition().x;
+				float distanciaLampara3y = matrixModelLamp3H[3].y - camaraOfrendaRecorrido->getPosition().y;
+				float distanciaLampara3z = matrixModelLamp3H[3].z - camaraOfrendaRecorrido->getPosition().z;
+				float sumaDistanciaLampara3 = glm::pow(distanciaLampara3x, 2) + glm::pow(distanciaLampara3y, 2) + glm::pow(distanciaLampara3z, 2);
+				distanciaCamaraHalloweenFoco3 = glm::sqrt(sumaDistanciaLampara3);
+
+				//casa de halloween, luces
+				if (distanciaCamaraHalloweenFoco1 < 3.0) {
+					onOffLampara1 = 0.01;
+					onOffLampara2 = 7;
+					onOffLampara3 = 7;
+				}
+				else if (distanciaCamaraHalloweenFoco2 < 3.0) {
+					onOffLampara1 = 7;
+					onOffLampara2 = 0.01;
+					onOffLampara3 = 7;
+				}
+				else if (distanciaCamaraHalloweenFoco3 < 3.0) {
+					onOffLampara1 = 7;
+					onOffLampara2 = 7;
+					onOffLampara3 = 0.01;
+				}
+				else {
+					onOffLampara1 = 7;
+					onOffLampara2 = 7;
+					onOffLampara3 = 7;
+				}
+			}
+			
 		}
 
 
