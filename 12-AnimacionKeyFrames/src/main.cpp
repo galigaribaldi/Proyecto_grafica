@@ -487,7 +487,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	////////
 
 	// Dart Lego
-	/*modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
+	modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
 	modelDartLegoBody.setShader(&shaderMulLighting);
 	modelDartLegoMask.loadModel("../models/LegoDart/LeoDart_mask.obj");
 	modelDartLegoMask.setShader(&shaderMulLighting);
@@ -549,7 +549,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/////////////////////
 	/////Muebles/////////
 	/////////////////////
-	/*modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
+	modelMueble.loadModel("../models/Wood_Table/\Wood_Table.obj");
 	modelMueble.setShader(&shaderMulLighting);
 	modelTable2.loadModel("../models/table/table.obj");
 	modelTable2.setShader(&shaderMulLighting);
@@ -617,18 +617,18 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelSheep.loadModel("../models/sheep2/sheep2.obj");
 	modelSheep.setShader(&shaderMulLighting);
 	modelChicken.loadModel("../models/chicken/chicken.obj");
-	modelChicken.setShader(&shaderMulLighting);*/
+	modelChicken.setShader(&shaderMulLighting);
 	snowMan.loadModel("../models/SnowMan/SnowMan.obj");
 	snowMan.setShader(&shaderMulLighting);
 	modelTrineo.loadModel("../models/trineo/trineo.obj");
 	modelTrineo.setShader(&shaderMulLighting);
 
-	/*modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
+	modelNocheBuena.loadModel("../models/nochebuena/nochebuena.obj");
 	modelNocheBuena.setShader(&shaderMulLighting);
 	modelBaston.loadModel("../models/baston/baston1.obj");
 	modelBaston.setShader(&shaderMulLighting);
 	modelCoronaDecoracion.loadModel("../models/wreath/wreath.obj");
-	modelCoronaDecoracion.setShader(&shaderMulLighting);*/
+	modelCoronaDecoracion.setShader(&shaderMulLighting);
 	modelPinata.loadModel("../models/pinata/pinata.obj");
 	modelPinata.setShader(&shaderMulLighting);
 	
@@ -645,7 +645,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	camera_halloween->setSensitivity(1);
 
 	camara_nacimiento->setPosition(glm::vec3(2.0, 2.8, 0.0));
-	//camara_nacimiento->setFront(glm::vec3(0.0, 0.0, 1.0));
+	camara_nacimiento->setFront(glm::vec3(0.0, 0.0, 1.0));
 
 
 	camara_ofrenda->setPosition(glm::vec3(-25, 2.3, 9.0));
