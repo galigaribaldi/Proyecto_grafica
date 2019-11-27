@@ -206,11 +206,6 @@ Model modelKitchen;
 Model modelBed;
 Model modelRefrigerator;
 
-
-Model modelHeliChasis;
-Model modelHeliHeliMeid;
-Model modelHeliHeliCh;
-
 Model modelLambo;
 Model modelLamboLeftDor;
 Model modelLamboRightDoor;
@@ -531,17 +526,6 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelEclipseWheelsRear.loadModel("../models/Eclipse/2003eclipse_rear_wheels.obj");
 	modelEclipseWheelsRear.setShader(&shaderMulLighting);
 
-	/////////////////////
-	/////Helicoptero/////
-	/////////////////////
-	modelHeliChasis.loadModel("../models/Helicopter/Mi_24_chasis.obj");
-	modelHeliChasis.setShader(&shaderMulLighting);
-
-	modelHeliHeliMeid.loadModel("../models/Helicopter/Mi_24_heli.obj");
-	modelHeliHeliMeid.setShader(&shaderMulLighting);
-
-	modelHeliHeliCh.loadModel("../models/Helicopter/Mi_24_heli2.obj");
-	modelHeliHeliCh.setShader(&shaderMulLighting);
 	/////////////////////
 	/////Lambo car/////
 	/////////////////////
@@ -1943,7 +1927,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcef(sources[1], AL_GAIN, 2.0f);
 	alSourcefv(sources[1], AL_VELOCITY, source0Vel);
 	alSourcefv(sources[1], AL_POSITION, source0Pos);
-	alSourcei(sources[1], AL_BUFFER, buffers[0]);
+	alSourcei(sources[1], AL_BUFFER, buffers[1]);
 	alSourcei(sources[1], AL_LOOPING, AL_TRUE);
 	alSourcei(sources[1], AL_MAX_DISTANCE, 10);
 }
@@ -1971,10 +1955,6 @@ void destroy() {
 	modelCar.destroy();
 	modelEclipseWheelsFrontal.destroy();
 	modelEclipseWheelsRear.destroy();
-
-	modelHeliChasis.destroy();
-	modelHeliHeliMeid.destroy();
-	modelHeliHeliCh.destroy();
 
 	modelLambo.destroy();
 	modelLamboLeftDor.destroy();
@@ -2406,8 +2386,7 @@ void applicationLoop() {
 	float offX = 0.0;
 	float angle = 0.0;
 	float ratio = 30.0;
-	float rotHeliHeliy = 0.0;
-	float rotHeliHeliz = 0.0;
+
 	float rotWheelx = 0.0;
 	float rotWheely = 0.0;
 	float rotWheelLamboX = 0.0;
@@ -2417,6 +2396,7 @@ void applicationLoop() {
 
 	glm::mat4 matrixModelAircraft = glm::mat4(1.0);
 	matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
+
 	glm::mat4 matrixModelCar = glm::mat4(1.0);
 	matrixModelCar = glm::translate(matrixModelCar, glm::vec3(-10, -1.6, -12.0));
 	matrixModelCar = glm::scale(matrixModelCar, glm::vec3(0.65, 0.65, 0.65));
@@ -2425,8 +2405,10 @@ void applicationLoop() {
 	modelMatrixLambo = glm::translate(modelMatrixLambo, glm::vec3(-15.0, -1.6, -15.0));
 	modelMatrixLambo = glm::scale(modelMatrixLambo, glm::vec3(2.0, 2.0, 2.0));
 
-	glm::mat4 modelMatrixHeliChasis = glm::mat4(1.0);
-	modelMatrixHeliChasis = glm::translate(modelMatrixHeliChasis, glm::vec3(20, 20, 0));
+	glm::mat4 matrixModelTrineo = glm::mat4(1.0);
+	matrixModelTrineo = glm::translate(matrixModelTrineo, glm::vec3(16, 18.1, -1.0));
+	matrixModelTrineo = glm::rotate(matrixModelTrineo, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
+	matrixModelTrineo = glm::scale(matrixModelTrineo, glm::vec3(0.8, 0.8, 0.8));
 
 	glm::mat4 matrixModelRegalo1 = glm::mat4(1.0);
 	matrixModelRegalo1 = glm::translate(matrixModelRegalo1, glm::vec3(-4.5, 2.4, 3.5));
@@ -8540,13 +8522,6 @@ void applicationLoop() {
 
 		snowMan.render(matrixModelSnowman);
 
-		glm::mat4 matrixModelTrineo = glm::mat4(1.0);
-		matrixModelTrineo = glm::translate(matrixModelTrineo, glm::vec3(0.0, 6.6, 5.0));
-		matrixModelTrineo = glm::rotate(matrixModelTrineo, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
-		matrixModelTrineo = glm::scale(matrixModelTrineo, glm::vec3(0.8, 0.8, 0.8));
-		modelTrineo.render(matrixModelTrineo);
-
-
 		glm::mat4 matrixModelCorona = glm::mat4(1.0);
 		matrixModelCorona = glm::translate(matrixModelCorona, glm::vec3(-2.5, 0.5, 3.75));
 		matrixModelCorona = glm::rotate(matrixModelCorona, glm::radians(-90.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -8849,25 +8824,11 @@ void applicationLoop() {
 
 
 		/////////////////////////////////////////
-		//////////RENDER HELICOPTERO/////////////
+		//////////RENDER TRINEO/////////////
 		/////////////////////////////////////////
-		modelHeliChasis.render(modelMatrixHeliChasis);
+		modelTrineo.render(matrixModelTrineo);
 		glActiveTexture(GL_TEXTURE0);
 
-		// Helices Helicoptero
-		glm::mat4 modelMatrixHeliHeli = glm::mat4(modelMatrixHeliChasis);
-		modelMatrixHeliHeli = glm::translate(modelMatrixHeliHeli, glm::vec3(-0.003344, 1.88318, -0.254566));
-		modelMatrixHeliHeli = glm::rotate(modelMatrixHeliHeli, rotHeliHeliy, glm::vec3(0, 1, 0));
-		modelMatrixHeliHeli = glm::translate(modelMatrixHeliHeli, glm::vec3(0.003344, -1.88318, 0.254566));
-		modelHeliHeliMeid.render(modelMatrixHeliHeli);
-		glActiveTexture(GL_TEXTURE0);
-		//Helice chica
-		glm::mat4 modelMatrixHeliHeli2 = glm::mat4(modelMatrixHeliChasis);
-		modelMatrixHeliHeli2 = glm::translate(modelMatrixHeliHeli2, glm::vec3(0.4685, 2.099, -5.645));
-		modelMatrixHeliHeli2 = glm::rotate(modelMatrixHeliHeli2, rotHeliHeliz, glm::vec3(1, 0, 0));
-		modelMatrixHeliHeli2 = glm::translate(modelMatrixHeliHeli2, glm::vec3(-0.4685, -2.099, 5.645));
-		modelHeliHeliCh.render(modelMatrixHeliHeli2);
-		glActiveTexture(GL_TEXTURE0);
 
 		/////////////////////////////////////////
 		//////////RENDER Lambo/////////////
@@ -8964,11 +8925,11 @@ void applicationLoop() {
 		}
 
 		///////////////////////////////////////////////////////////////////
-		/////////////////STATE MACHINE HELICOPTERO/////////////////////
+		/////////////////STATE MACHINE TRINEO/////////////////////
 		///////////////////////////////////////////////////////////////////
 		switch (stateheli) {
 		case 0:
-			modelMatrixHeliChasis = glm::translate(modelMatrixHeliChasis, glm::vec3(-0.1, -0.1, 0.0));
+			matrixModelTrineo = glm::translate(matrixModelTrineo, glm::vec3(0.1, -0.1, 0.0));
 			offsetHeliAdvance += 0.1;
 			if (offsetHeliAdvance > 14.7) {
 				offsetHeliAdvance = 0.0;
@@ -8976,7 +8937,7 @@ void applicationLoop() {
 			}
 			break;
 		case 1:
-			modelMatrixHeliChasis = glm::translate(modelMatrixHeliChasis, glm::vec3(0.1, 0.1, 0));
+			matrixModelTrineo = glm::translate(matrixModelTrineo, glm::vec3(-0.1, 0.1, 0));
 			offsetHeliAdvance += 0.1;
 			if (offsetHeliAdvance > 14.7) {
 				offsetHeliAdvance = 0.0;
@@ -9898,8 +9859,7 @@ void applicationLoop() {
 		offset3 += 1;
 		offset4 += 1;
 		offset5 += 1;
-		rotHeliHeliy += 0.1;
-		rotHeliHeliz += 0.1;
+
 		rotWheelx += 0.1;
 
 		if (offset1 > 7) { offset1 = 0.0; }
